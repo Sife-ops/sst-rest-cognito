@@ -1,5 +1,7 @@
 import { StackContext, Api, ViteStaticSite } from "@serverless-stack/resources";
 
+const { DOMAIN, SUBDOMAIN } = process.env;
+
 export function MyStack({ stack }: StackContext) {
   const api = new Api(stack, "api", {
     routes: {
@@ -11,6 +13,11 @@ export function MyStack({ stack }: StackContext) {
     path: "frontend",
     environment: {
       VITE_API_URL: api.url,
+    },
+    customDomain: {
+      domainName: `${SUBDOMAIN}.${DOMAIN}`,
+      domainAlias: `www.${SUBDOMAIN}.${DOMAIN}`,
+      hostedZone: `${DOMAIN}`,
     },
   });
 
