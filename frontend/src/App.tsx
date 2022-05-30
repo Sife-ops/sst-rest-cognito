@@ -1,11 +1,10 @@
 import { useEffect } from "react";
 import "./App.css";
+import { env } from "./constant";
 
 function App() {
-  const apiUrl = import.meta.env.VITE_API_URL;
-
   useEffect(() => {
-    fetch(apiUrl).then(async (res) => {
+    fetch(env.apiGateway.URL).then(async (res) => {
       const text = await res.text();
       console.log(text);
     });

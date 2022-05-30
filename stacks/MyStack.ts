@@ -30,7 +30,11 @@ export function MyStack({ stack }: StackContext) {
   const site = new ViteStaticSite(stack, "site", {
     path: "frontend",
     environment: {
+      VITE_REGION: stack.region,
       VITE_API_URL: api.url,
+      VITE_USER_POOL_ID: auth.userPoolId,
+      VITE_USER_POOL_CLIENT_ID: auth.userPoolClientId,
+      VITE_IDENTITY_POOL_ID: auth.cognitoIdentityPoolId || "",
     },
     customDomain: {
       domainName: `${SUBDOMAIN}.${DOMAIN}`,
@@ -40,9 +44,10 @@ export function MyStack({ stack }: StackContext) {
   });
 
   stack.addOutputs({
+    Region: stack.region,
     ApiEndpoint: api.url,
     UserPoolId: auth.userPoolId,
-    IdentityPoolId: auth.cognitoIdentityPoolId || '',
+    IdentityPoolId: auth.cognitoIdentityPoolId || "",
     UserPoolClientId: auth.userPoolClientId,
     SiteUrl: site.url,
   });
