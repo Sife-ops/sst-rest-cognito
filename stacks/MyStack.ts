@@ -1,13 +1,31 @@
-import { StackContext, Api, ViteStaticSite } from "@serverless-stack/resources";
+import {
+  StackContext,
+  Api,
+  ViteStaticSite,
+  Auth,
+} from "@serverless-stack/resources";
 
 const { DOMAIN, SUBDOMAIN } = process.env;
 
 export function MyStack({ stack }: StackContext) {
   const api = new Api(stack, "api", {
+    defaults: {
+      authorizer: "iam",
+    },
     routes: {
-      "GET /": "functions/lambda.handler",
+      "GET /": {
+        function: "functions/lambda.handler",
+        authorizer: "none",
+      },
+      "GET /private": "functions/private.handler",
     },
   });
+
+  const auth = new Auth(stack, "auth", {
+    login: ["email"],
+  });
+
+  auth.attachPermissionsForAuthUsers([api]);
 
   const site = new ViteStaticSite(stack, "site", {
     path: "frontend",
@@ -22,7 +40,10 @@ export function MyStack({ stack }: StackContext) {
   });
 
   stack.addOutputs({
-    apiUrl: api.url,
-    siteUrl: site.url,
+    ApiEndpoint: api.url,
+    UserPoolId: auth.userPoolId,
+    IdentityPoolId: auth.cognitoIdentityPoolId || '',
+    UserPoolClientId: auth.userPoolClientId,
+    SiteUrl: site.url,
   });
 }
