@@ -1,14 +1,12 @@
-import React from "react";
-import logo from "./logo.svg";
+// import React from "react";
+// import logo from "./logo.svg";
+
 import "./App.css";
+import { env } from "./constant";
 
 function App() {
-  console.log(process.env.REACT_APP_REGION);
-  console.log(process.env.REACT_APP_API_URL);
-  console.log(process.env.REACT_APP_REGION);
-  console.log(process.env.REACT_APP_API_URL);
-  console.log(process.env.REACT_APP_REGION);
-  console.log(process.env.REACT_APP_API_URL);
+  console.log(env.apiGateway.REGION);
+  console.log(env.apiGateway.URL);
 
   return (
     <div className="App">
