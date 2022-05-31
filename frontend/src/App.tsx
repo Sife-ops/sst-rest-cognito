@@ -1,35 +1,23 @@
 import "./App.css";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Dev } from "./component/dev";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { SignIn } from "./component/sign-in";
 import { SignUp } from "./component/sign-up";
-import { Dev } from "./component/dev";
-import { env } from "./constant";
-import { useEffect } from "react";
 
 const Landing: React.FC = () => {
   return <div>landing</div>;
 };
 
 function App() {
-  useEffect(() => {
-    console.log(env);
-  }, []);
+  const nav = useNavigate();
 
   return (
     <div>
       <ul>
-        <li>
-          <a href="/">landing</a>
-        </li>
-        <li>
-          <a href="/signin">sign in</a>
-        </li>
-        <li>
-          <a href="/signup">sign up</a>
-        </li>
-        <li>
-          <a href="/dev">dev</a>
-        </li>
+        <li onClick={() => nav("/")}>landing</li>
+        <li onClick={() => nav("/signin")}>sign in</li>
+        <li onClick={() => nav("/signup")}>sign up</li>
+        <li onClick={() => nav("/dev")}>dev</li>
       </ul>
       <Routes>
         <Route path="/" element={<Landing />} />
