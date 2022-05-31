@@ -20,6 +20,11 @@ export function MyStack({ stack }: StackContext) {
   const api = new Api(stack, "api", {
     defaults: {
       authorizer: "iam",
+      function: {
+        environment: {
+          tableName: table.tableName,
+        },
+      },
     },
     routes: {
       "GET /public": {

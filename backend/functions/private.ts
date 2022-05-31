@@ -1,4 +1,7 @@
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
+import { DynamoDB } from "aws-sdk";
+
+const dynamodb = new DynamoDB.DocumentClient();
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   // todo: validate
@@ -10,7 +13,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     variables?: Record<string, any>;
   };
 
-  const accountId = event.requestContext.accountId;
+  // const accountId = event.requestContext.accountId;
+  const accountId = "01";
 
   const response = (body: any) => {
     return {
@@ -21,12 +25,19 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   };
 
   switch (body.operation) {
-    case "bookmark-list":
-      return response({ test: "lol" });
-      break;
+    case "item-list":
+      const res = await dynamodb
+        .query({
+          TableName: process.env.tableName || "",
+          KeyConditionExpression: "pk = :user",
+          ExpressionAttributeValues: {
+            ":user": `user:${accountId}`,
+          },
+        })
+        .promise();
+      return response(res.Items);
 
     default:
       throw new Error("unknown operation");
-      break;
   }
 };

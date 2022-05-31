@@ -25,7 +25,7 @@ export const Dev: React.FC = () => {
         onClick={async () => {
           const res = await API.post("temp", "/private", {
             body: {
-              operation: "bookmark-list",
+              operation: "item-list",
             },
           });
           console.log(res);
