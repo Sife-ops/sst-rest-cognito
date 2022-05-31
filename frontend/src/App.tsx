@@ -1,48 +1,38 @@
-// import logo from "./logo.svg";
 import "./App.css";
-import { Auth } from "aws-amplify";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { SignIn } from "./component/sign-in";
+import { SignUp } from "./component/sign-up";
 import { env } from "./constant";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+
+const Landing: React.FC = () => {
+  return <div>landing</div>;
+};
 
 function App() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   useEffect(() => {
     console.log(env);
   }, []);
 
   return (
-    <div className="App">
-      {/* // */}
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          try {
-            const res = await Auth.signIn(email, password);
-            console.log("auth", res);
-            alert("ok");
-          } catch (e) {
-            console.log(e);
-          }
-        }}
-      >
-        <input
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-          value={email}
-        />
-        <br />
-        <input
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-          value={password}
-        />
-        <br />
-        <button type="submit">submit</button>
-      </form>
+    <div>
+      <ul>
+        <li>
+          <a href="/">landing</a>
+        </li>
+        <li>
+          <a href="/signin">sign in</a>
+        </li>
+        <li>
+          <a href="/signup">sign up</a>
+        </li>
+      </ul>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="*" element={<Navigate replace to="/" />} />
+      </Routes>
     </div>
   );
 }

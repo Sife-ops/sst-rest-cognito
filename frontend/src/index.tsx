@@ -5,6 +5,7 @@ import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 import { Amplify } from "aws-amplify";
 import { env } from "./constant";
+import { BrowserRouter } from "react-router-dom";
 
 Amplify.configure({
   Auth: {
@@ -30,7 +31,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );
 
