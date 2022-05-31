@@ -12,8 +12,9 @@ export const SignIn: React.FC = () => {
         onSubmit={async (e) => {
           e.preventDefault();
           try {
-            const res = await Auth.signIn(email, password);
-            console.log("auth", res);
+            await Auth.signIn(email, password);
+            // todo: don't use reload
+            window.location.reload();
           } catch (e) {
             console.log(e);
           }

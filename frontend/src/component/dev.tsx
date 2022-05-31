@@ -1,7 +1,14 @@
 import React from "react";
-import { API } from "aws-amplify";
+import { API, Auth } from "aws-amplify";
 
 export const Dev: React.FC = () => {
+  React.useEffect(() => {
+    // console.log(Auth.Credentials);
+    Auth.currentAuthenticatedUser().then((e) => {
+      console.log(e);
+    });
+  }, []);
+
   return (
     <div className="App">
       <h1>api</h1>
