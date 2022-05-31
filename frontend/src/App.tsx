@@ -11,6 +11,8 @@ const Landing: React.FC = () => {
 };
 
 function App() {
+  const nav = useNavigate();
+
   const [isSignedIn, setIsSignedIn] = React.useState(false);
 
   React.useEffect(() => {
@@ -27,8 +29,6 @@ function App() {
     checkSignedIn();
   }, []);
 
-  const nav = useNavigate();
-
   return (
     <div>
       <ul>
@@ -36,10 +36,8 @@ function App() {
         {isSignedIn ? (
           <li
             onClick={async () => {
-              const res = await Auth.signOut();
-              console.log(res);
+              await Auth.signOut();
               setIsSignedIn(false);
-              window.location.reload();
             }}
           >
             sign out
@@ -62,7 +60,10 @@ function App() {
       ) : (
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/signin" element={<SignIn />} />
+          <Route
+            path="/signin"
+            element={<SignIn setIsSignedIn={setIsSignedIn} />}
+          />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/dev" element={<Dev />} />
           <Route path="*" element={<Navigate replace to="/" />} />

@@ -1,7 +1,9 @@
 import { Auth } from "aws-amplify";
 import { useState } from "react";
 
-export const SignIn: React.FC = () => {
+export const SignIn: React.FC<{
+  setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>;
+}> = (p) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -13,8 +15,7 @@ export const SignIn: React.FC = () => {
           e.preventDefault();
           try {
             await Auth.signIn(email, password);
-            // todo: don't use reload
-            window.location.reload();
+            p.setIsSignedIn(true);
           } catch (e) {
             console.log(e);
           }
