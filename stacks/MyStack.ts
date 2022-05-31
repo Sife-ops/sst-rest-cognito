@@ -1,7 +1,8 @@
 import {
   StackContext,
   Api,
-  ViteStaticSite,
+  // ViteStaticSite,
+  ReactStaticSite,
   Auth,
 } from "@serverless-stack/resources";
 
@@ -27,14 +28,30 @@ export function MyStack({ stack }: StackContext) {
 
   auth.attachPermissionsForAuthUsers([api]);
 
-  const site = new ViteStaticSite(stack, "site", {
+  // const site = new ViteStaticSite(stack, "site", {
+  //   path: "frontend",
+  //   environment: {
+  //     VITE_REGION: stack.region,
+  //     VITE_API_URL: api.url,
+  //     VITE_USER_POOL_ID: auth.userPoolId,
+  //     VITE_USER_POOL_CLIENT_ID: auth.userPoolClientId,
+  //     VITE_IDENTITY_POOL_ID: auth.cognitoIdentityPoolId || "",
+  //   },
+  //   customDomain: {
+  //     domainName: `${SUBDOMAIN}.${DOMAIN}`,
+  //     domainAlias: `www.${SUBDOMAIN}.${DOMAIN}`,
+  //     hostedZone: `${DOMAIN}`,
+  //   },
+  // });
+
+  const site = new ReactStaticSite(stack, "site", {
     path: "frontend",
     environment: {
-      VITE_REGION: stack.region,
-      VITE_API_URL: api.url,
-      VITE_USER_POOL_ID: auth.userPoolId,
-      VITE_USER_POOL_CLIENT_ID: auth.userPoolClientId,
-      VITE_IDENTITY_POOL_ID: auth.cognitoIdentityPoolId || "",
+      REACT_APP_REGION: stack.region,
+      REACT_APP_API_URL: api.url,
+      REACT_APP_USER_POOL_ID: auth.userPoolId,
+      REACT_APP_USER_POOL_CLIENT_ID: auth.userPoolClientId,
+      REACT_APP_IDENTITY_POOL_ID: auth.cognitoIdentityPoolId || "",
     },
     customDomain: {
       domainName: `${SUBDOMAIN}.${DOMAIN}`,
