@@ -5,16 +5,19 @@ export const SignUp: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [confirmEmail, setConfirmEmail] = useState("");
+  const [confirmCode, setConfirmCode] = useState("");
+
   return (
     <div className="App">
-      {/* // */}
+      <h1>sign up</h1>
       <form
         onSubmit={async (e) => {
           e.preventDefault();
           try {
-            const res = await Auth.signIn(email, password);
+            const res = await Auth.signUp(email, password);
             console.log("auth", res);
-            alert("ok");
+            setConfirmEmail(email);
           } catch (e) {
             console.log(e);
           }
@@ -36,7 +39,28 @@ export const SignUp: React.FC = () => {
         <br />
         <button type="submit">submit</button>
       </form>
+
+      <h1>confirm</h1>
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          try {
+            const res = await Auth.confirmSignUp(confirmEmail, confirmCode);
+            console.log("auth", res);
+          } catch (e) {
+            console.log(e);
+          }
+        }}
+      >
+        <input
+          onChange={(e) => {
+            setConfirmCode(e.target.value);
+          }}
+          value={confirmCode}
+        />
+        <br />
+        <button type="submit">submit</button>
+      </form>
     </div>
   );
 };
-

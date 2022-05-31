@@ -1,9 +1,8 @@
 import {
-  StackContext,
   Api,
-  // ViteStaticSite,
-  ReactStaticSite,
   Auth,
+  ReactStaticSite,
+  StackContext,
 } from "@serverless-stack/resources";
 
 const { DOMAIN, SUBDOMAIN } = process.env;
@@ -27,22 +26,6 @@ export function MyStack({ stack }: StackContext) {
   });
 
   auth.attachPermissionsForAuthUsers([api]);
-
-  // const site = new ViteStaticSite(stack, "site", {
-  //   path: "frontend",
-  //   environment: {
-  //     VITE_REGION: stack.region,
-  //     VITE_API_URL: api.url,
-  //     VITE_USER_POOL_ID: auth.userPoolId,
-  //     VITE_USER_POOL_CLIENT_ID: auth.userPoolClientId,
-  //     VITE_IDENTITY_POOL_ID: auth.cognitoIdentityPoolId || "",
-  //   },
-  //   customDomain: {
-  //     domainName: `${SUBDOMAIN}.${DOMAIN}`,
-  //     domainAlias: `www.${SUBDOMAIN}.${DOMAIN}`,
-  //     hostedZone: `${DOMAIN}`,
-  //   },
-  // });
 
   const site = new ReactStaticSite(stack, "site", {
     path: "frontend",

@@ -7,14 +7,13 @@ export const SignIn: React.FC = () => {
 
   return (
     <div className="App">
-      {/* // */}
+      <h1>sign in</h1>
       <form
         onSubmit={async (e) => {
           e.preventDefault();
           try {
             const res = await Auth.signIn(email, password);
             console.log("auth", res);
-            alert("ok");
           } catch (e) {
             console.log(e);
           }
