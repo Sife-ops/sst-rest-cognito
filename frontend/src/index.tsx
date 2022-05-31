@@ -1,11 +1,32 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import "./index.css";
+import App from "./App";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import reportWebVitals from "./reportWebVitals";
+import { Amplify } from "aws-amplify";
+import { env } from "./constant";
+
+Amplify.configure({
+  Auth: {
+    mandatorySignIn: true,
+    region: env.cognito.REGION,
+    userPoolId: env.cognito.USER_POOL_ID,
+    identityPoolId: env.cognito.IDENTITY_POOL_ID,
+    userPoolWebClientId: env.cognito.USER_POOL_CLIENT_ID,
+  },
+  API: {
+    endpoints: [
+      {
+        name: "temp",
+        endpoint: env.apiGateway.URL,
+        region: env.apiGateway.REGION,
+      },
+    ],
+  },
+});
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
