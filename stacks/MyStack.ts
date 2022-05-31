@@ -13,8 +13,8 @@ export function MyStack({ stack }: StackContext) {
       authorizer: "iam",
     },
     routes: {
-      "GET /": {
-        function: "functions/lambda.handler",
+      "GET /public": {
+        function: "functions/public.handler",
         authorizer: "none",
       },
       "GET /private": "functions/private.handler",
