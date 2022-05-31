@@ -23,7 +23,11 @@ export const Dev: React.FC = () => {
 
       <button
         onClick={async () => {
-          const res = await API.get("temp", "/private", {});
+          const res = await API.post("temp", "/private", {
+            body: {
+              operation: "bookmark-list",
+            },
+          });
           console.log(res);
         }}
       >

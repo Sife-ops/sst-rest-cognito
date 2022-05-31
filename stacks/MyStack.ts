@@ -26,7 +26,7 @@ export function MyStack({ stack }: StackContext) {
         function: "functions/public.handler",
         authorizer: "none",
       },
-      "GET /private": "functions/private.handler",
+      "POST /private": "functions/private.handler",
     },
   });
   api.attachPermissions([table]);
