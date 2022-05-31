@@ -1,23 +1,30 @@
 // import logo from "./logo.svg";
-// import { env } from "./constant";
 import "./App.css";
-import { useState } from "react";
+import { Auth } from "aws-amplify";
+import { env } from "./constant";
+import { useState, useEffect } from "react";
 
 function App() {
-  // console.log(env.apiGateway.REGION);
-  // console.log(env.apiGateway.URL);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    console.log(env);
+  }, []);
 
   return (
     <div className="App">
       {/* // */}
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
-          console.log(email);
-          console.log(password);
+          try {
+            const res = await Auth.signIn(email, password);
+            console.log("auth", res);
+            alert("ok");
+          } catch (e) {
+            console.log(e);
+          }
         }}
       >
         <input
