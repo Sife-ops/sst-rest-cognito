@@ -3,11 +3,20 @@ import {
   Auth,
   ReactStaticSite,
   StackContext,
+  Table,
 } from "@serverless-stack/resources";
 
 const { DOMAIN, SUBDOMAIN } = process.env;
 
 export function MyStack({ stack }: StackContext) {
+  const table = new Table(stack, "table", {
+    fields: {
+      pk: "string",
+      sk: "string",
+    },
+    primaryIndex: { partitionKey: "pk", sortKey: "sk" },
+  });
+
   const api = new Api(stack, "api", {
     defaults: {
       authorizer: "iam",
@@ -20,11 +29,11 @@ export function MyStack({ stack }: StackContext) {
       "GET /private": "functions/private.handler",
     },
   });
+  api.attachPermissions([table]);
 
   const auth = new Auth(stack, "auth", {
     login: ["email"],
   });
-
   auth.attachPermissionsForAuthUsers([api]);
 
   const site = new ReactStaticSite(stack, "site", {
@@ -45,6 +54,7 @@ export function MyStack({ stack }: StackContext) {
 
   stack.addOutputs({
     Region: stack.region,
+    Table: table.tableName,
     ApiEndpoint: api.url,
     UserPoolId: auth.userPoolId,
     IdentityPoolId: auth.cognitoIdentityPoolId || "",
