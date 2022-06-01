@@ -28,7 +28,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     case "item-list":
       const res = await dynamodb
         .query({
-          TableName: process.env.tableName || "",
+          // todo: remove bang
+          TableName: process.env.tableName!,
           KeyConditionExpression: "pk = :user",
           ExpressionAttributeValues: {
             ":user": `user:${accountId}`,
