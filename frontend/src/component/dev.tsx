@@ -15,6 +15,20 @@ export const Dev: React.FC = () => {
 
   return (
     <div className="App">
+      <h1>list bookmarks</h1>
+      <button
+        onClick={async () => {
+          const res = await API.post("temp", "/private", {
+            body: {
+              operation: "bookmark-list",
+            },
+          });
+          console.log(res);
+        }}
+      >
+        submit
+      </button>
+
       <h1>create bookmark</h1>
       <form
         onSubmit={async (e) => {
@@ -93,7 +107,7 @@ export const Dev: React.FC = () => {
         <button type="submit">submit</button>
       </form>
 
-      <h1>get</h1>
+      <h1>public</h1>
       <button
         onClick={async () => {
           const res = await API.get("temp", "/public", {});
@@ -104,7 +118,7 @@ export const Dev: React.FC = () => {
       </button>
       <br />
 
-      <h1>list</h1>
+      <h1>list items</h1>
       <button
         onClick={async () => {
           const res = await API.post("temp", "/private", {

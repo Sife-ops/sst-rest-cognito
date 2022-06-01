@@ -40,6 +40,64 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     }
 
     /**
+     * bookmark list
+     */
+    case "bookmark-list": {
+      const bookmarksRes = await dynamodb
+        .query({
+          TableName: process.env.tableName!,
+          KeyConditionExpression: "pk = :pk and begins_with(sk, :sk)",
+          ExpressionAttributeValues: {
+            ":pk": `user:${accountId}`,
+            ":sk": `bookmark:`,
+          },
+        })
+        .promise()
+        .then((e) => {
+          console.log(e);
+          return e;
+        });
+
+      const categoriesRes = await dynamodb
+        .query({
+          TableName: process.env.tableName!,
+          KeyConditionExpression: "pk = :pk and begins_with(sk, :sk)",
+          ExpressionAttributeValues: {
+            ":pk": `user:${accountId}`,
+            ":sk": `category:`,
+          },
+        })
+        .promise()
+        .then((e) => {
+          console.log(e);
+          return e;
+        });
+
+      const bookmarks = bookmarksRes.Items?.map((bookmark) => {
+        const categories = categoriesRes.Items?.reduce(
+          (acc: any[], cur, _, arr) => {
+            //
+            if (cur.sk.includes(bookmark.sk)) {
+              const category = arr.find((category) => {
+                return category.sk === cur.sk.split("#")[0];
+              });
+              return [...acc, category];
+            }
+            return acc;
+          },
+          []
+        );
+
+        return {
+          ...bookmark,
+          categories,
+        };
+      });
+
+      return jsonResponse(bookmarks);
+    }
+
+    /**
      * category create
      */
     case "category-create": {
