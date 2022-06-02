@@ -31,6 +31,11 @@ export function MyStack({ stack }: StackContext) {
         function: "functions/public.handler",
         authorizer: "none",
       },
+      // todo: delete
+      "POST /test": {
+        function: "functions/test.handler",
+        authorizer: "none",
+      },
       "POST /private": "functions/private.handler",
     },
   });

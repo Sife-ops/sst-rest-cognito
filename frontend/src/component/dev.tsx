@@ -15,6 +15,24 @@ export const Dev: React.FC = () => {
 
   return (
     <div className="App">
+      <h1>test endpoint</h1>
+      <button
+        onClick={async () => {
+          const res = await API.post("temp", "/test", {
+            body: {
+              operation: "bookmark-list",
+              variables: {
+                name: "foo",
+                age: 3,
+              },
+            },
+          });
+          console.log(res);
+        }}
+      >
+        submit
+      </button>
+
       <h1>list bookmarks</h1>
       <button
         onClick={async () => {
