@@ -1,27 +1,28 @@
 import jsonBodyParser from "@middy/http-json-body-parser";
 import middy from "@middy/core";
 import operations from "../lib/operation";
-import type { ValidatedEventAPIGatewayProxyEvent } from "../lib/api-gateway";
-import { formatJSONResponse } from "../lib/api-gateway";
+import { PrivateHandlerInput } from "../lib/input";
 
-/**
- * input schema
- */
-const inputSchema = {
-  type: "object",
-  properties: {
-    operation: { enum: ["itemList", "bookmarkList"] },
-    accountId: { type: "string" },
-    variables: { type: "object" },
-  },
-  required: ["operation", "accountId"],
-} as const;
+import type {
+  APIGatewayProxyEvent,
+  APIGatewayProxyResult,
+  Handler,
+} from "aws-lambda";
+
+type ValidatedAPIGatewayProxyEvent<S> = Omit<APIGatewayProxyEvent, "body"> & {
+  body: S;
+};
+
+type ValidatedEventAPIGatewayProxyEvent<S> = Handler<
+  ValidatedAPIGatewayProxyEvent<S>,
+  APIGatewayProxyResult
+>;
 
 /**
  * handler
  */
 const lambdaHandler: ValidatedEventAPIGatewayProxyEvent<
-  typeof inputSchema
+  PrivateHandlerInput
 > = async (event) => {
   const {
     body,
@@ -30,7 +31,11 @@ const lambdaHandler: ValidatedEventAPIGatewayProxyEvent<
   } = event;
 
   const res = await operations[operation]({ accountId, body });
-  return res;
+
+  return {
+    statusCode: 200,
+    body: "aaa",
+  };
 };
 
 export const handler = middy(lambdaHandler).use(jsonBodyParser());

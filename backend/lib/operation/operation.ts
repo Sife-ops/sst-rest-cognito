@@ -1,6 +1,4 @@
-export interface OperationIface {
-  accountId: string;
-  body: any;
-}
+import type { APIGatewayProxyResult } from "aws-lambda";
+import { OperationInput } from "../input";
 
-export type OperationFn = (p: OperationIface) => any;
+export type OperationFn = (p: OperationInput) => Promise<APIGatewayProxyResult>;

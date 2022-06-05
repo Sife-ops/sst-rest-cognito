@@ -1,5 +1,5 @@
 import { OperationFn } from "./operation";
-import { formatJSONResponse } from "../api-gateway";
+import { formatJSONResponse } from "../response";
 
 const itemList: OperationFn = async (p) => {
   return formatJSONResponse({
