@@ -2,13 +2,13 @@ import { OperationFn } from "./operation";
 import { db } from "../service";
 import { formatJSONResponse } from "../response";
 
-const bookmarkList: OperationFn = async (p) => {
+const bookmarkList: OperationFn = async (args) => {
   const bookmarksRes = await db
     .query({
       TableName: process.env.tableName!,
       KeyConditionExpression: "pk = :pk and begins_with(sk, :sk)",
       ExpressionAttributeValues: {
-        ":pk": `user:${p.accountId}`,
+        ":pk": `user:${args.accountId}`,
         ":sk": `bookmark:`,
       },
     })
@@ -23,7 +23,7 @@ const bookmarkList: OperationFn = async (p) => {
       TableName: process.env.tableName!,
       KeyConditionExpression: "pk = :pk and begins_with(sk, :sk)",
       ExpressionAttributeValues: {
-        ":pk": `user:${p.accountId}`,
+        ":pk": `user:${args.accountId}`,
         ":sk": `category:`,
       },
     })

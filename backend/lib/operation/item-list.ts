@@ -1,11 +1,11 @@
 import { OperationFn } from "./operation";
 import { formatJSONResponse } from "../response";
 
-const itemList: OperationFn = async (p) => {
+const itemList: OperationFn = async (args) => {
   return formatJSONResponse({
-    success: true,
     data: {
-      // accountId: body.accountId,
+      accountId: args.accountId,
+      input: args.body,
     },
   });
 };

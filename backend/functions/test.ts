@@ -9,33 +9,24 @@ import type {
   Handler,
 } from "aws-lambda";
 
-type ValidatedAPIGatewayProxyEvent<S> = Omit<APIGatewayProxyEvent, "body"> & {
-  body: S;
-};
-
-type ValidatedEventAPIGatewayProxyEvent<S> = Handler<
-  ValidatedAPIGatewayProxyEvent<S>,
+type PrivateHandler<S> = Handler<
+  Omit<APIGatewayProxyEvent, "body"> & {
+    body: S;
+  },
   APIGatewayProxyResult
 >;
 
 /**
  * handler
  */
-const lambdaHandler: ValidatedEventAPIGatewayProxyEvent<
-  PrivateHandlerInput
-> = async (event) => {
+const lambdaHandler: PrivateHandler<PrivateHandlerInput> = async (event) => {
   const {
     body,
     body: { operation },
     requestContext: { accountId },
   } = event;
 
-  const res = await operations[operation]({ accountId, body });
-
-  return {
-    statusCode: 200,
-    body: "aaa",
-  };
+  return await operations[operation]({ accountId, body });
 };
 
 export const handler = middy(lambdaHandler).use(jsonBodyParser());
