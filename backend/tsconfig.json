@@ -1,6 +1,6 @@
 {
   "extends": "../tsconfig.json",
-  "include": ["functions"],
+  "include": ["functions", "lib/api-gateway.ts"],
   "compilerOptions": {
     "module": "esnext",
     "target": "es2017",
