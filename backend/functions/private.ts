@@ -1,188 +1,60 @@
-import crypto from "crypto";
-import { APIGatewayProxyHandlerV2 } from "aws-lambda";
-import { DynamoDB } from "aws-sdk";
+import jsonBodyParser from "@middy/http-json-body-parser";
+import middy from "@middy/core";
+import operations from "../lib/operation";
+import { PrivateHandlerInput } from "../lib/input";
 
-const dynamodb = new DynamoDB.DocumentClient();
+import type {
+  APIGatewayProxyEvent,
+  APIGatewayProxyResult,
+  Handler,
+} from "aws-lambda";
 
-export const handler: APIGatewayProxyHandlerV2 = async (event) => {
-  const accountId = event.requestContext.accountId;
-  console.log(accountId);
+type PrivateHandler<S> = Handler<
+  Omit<APIGatewayProxyEvent, "body"> & {
+    body: S;
+  },
+  APIGatewayProxyResult
+>;
 
-  if (!event.body) {
-    throw new Error("no body");
-  }
+const lambdaHandler: PrivateHandler<PrivateHandlerInput> = async (event) => {
+  const {
+    body,
+    body: { operation },
+    requestContext: { accountId },
+  } = event;
 
-  const body = JSON.parse(event.body) as {
-    operation: string;
-  };
+  try {
+    const result = await operations[operation]({ accountId, body });
 
-  switch (body.operation) {
-    /**
-     * item list
-     */
-    case "item-list": {
-      const res = await dynamodb
-        .query({
-          // todo: remove the bang
-          TableName: process.env.tableName!,
-          KeyConditionExpression: "pk = :user",
-          ExpressionAttributeValues: {
-            ":user": `user:${accountId}`,
-          },
-        })
-        .promise()
-        .then((e) => {
-          console.log(e);
-          return e;
-        });
-
-      return jsonResponse(res.Items);
+    if (result.ok) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          success: true,
+          data: result.val,
+        }),
+      };
+    } else {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          success: false,
+          message: result.val,
+        }),
+      };
     }
-
-    /**
-     * bookmark list
-     */
-    case "bookmark-list": {
-      const bookmarksRes = await dynamodb
-        .query({
-          TableName: process.env.tableName!,
-          KeyConditionExpression: "pk = :pk and begins_with(sk, :sk)",
-          ExpressionAttributeValues: {
-            ":pk": `user:${accountId}`,
-            ":sk": `bookmark:`,
-          },
-        })
-        .promise()
-        .then((e) => {
-          console.log(e);
-          return e;
-        });
-
-      const categoriesRes = await dynamodb
-        .query({
-          TableName: process.env.tableName!,
-          KeyConditionExpression: "pk = :pk and begins_with(sk, :sk)",
-          ExpressionAttributeValues: {
-            ":pk": `user:${accountId}`,
-            ":sk": `category:`,
-          },
-        })
-        .promise()
-        .then((e) => {
-          console.log(e);
-          return e;
-        });
-
-      const bookmarks = bookmarksRes.Items?.map((bookmark) => {
-        const categories = categoriesRes.Items?.reduce(
-          (acc: any[], cur, _, arr) => {
-            //
-            if (cur.sk.includes(bookmark.sk)) {
-              const category = arr.find((category) => {
-                return category.sk === cur.sk.split("#")[0];
-              });
-              return [...acc, category];
-            }
-            return acc;
-          },
-          []
-        );
-
-        return {
-          ...bookmark,
-          categories,
-        };
-      });
-
-      return jsonResponse(bookmarks);
-    }
-
-    /**
-     * category create
-     */
-    case "category-create": {
-      const { description, name } = getVars<{
-        name?: string;
-        description?: string;
-      }>(body);
-
-      if (!name) {
-        throw new Error("invalid arguments");
-      }
-
-      // todo: prevent duplicate
-
-      const res = await dynamodb
-        .put({
-          TableName: process.env.tableName!,
-          Item: {
-            pk: `user:${accountId}`,
-            sk: `category:${crypto.randomUUID()}`,
-            name,
-            description,
-          },
-        })
-        .promise()
-        .then((e) => {
-          console.log(e);
-          return e;
-        });
-
-      return jsonResponse(res);
-    }
-
-    /**
-     * bookmark create
-     */
-    case "bookmark-create": {
-      const { name, description, url, favorite } = getVars<{
-        name?: string;
-        description?: string;
-        url?: string;
-        favorite?: boolean;
-      }>(body);
-
-      if (!name) {
-        throw new Error("invalid arguments");
-      }
-
-      const res = await dynamodb
-        .put({
-          TableName: process.env.tableName!,
-          Item: {
-            pk: `user:${accountId}`,
-            sk: `bookmark:${crypto.randomUUID()}`,
-            name,
-            description,
-            url,
-            favorite,
-          },
-        })
-        .promise()
-        .then((e) => {
-          console.log(e);
-          return e;
-        });
-
-      return jsonResponse(res);
-    }
-
-    /**
-     * default
-     */
-    default:
-      throw new Error("unknown operation");
+  } catch (error) {
+    const e = error as { message: string };
+    console.log(e.message);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        success: false,
+        message: e.message,
+        error: e,
+      }),
+    };
   }
 };
 
-const getVars = <T>(body: any): T => {
-  return body.variables as T;
-};
-
-const jsonResponse = (body: any) => {
-  return {
-    statusCode: 200,
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  };
-};
+export const handler = middy(lambdaHandler).use(jsonBodyParser());

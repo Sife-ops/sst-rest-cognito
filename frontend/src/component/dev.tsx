@@ -19,7 +19,7 @@ export const Dev: React.FC = () => {
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          const res = await API.post("temp", "/test", {
+          const res = await API.post("temp", "/private", {
             body: {
               operation: "bookmarkCreate",
               variables: {
@@ -66,7 +66,7 @@ export const Dev: React.FC = () => {
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          const res = await API.post("temp", "/test", {
+          const res = await API.post("temp", "/private", {
             body: {
               operation: "categoryCreate",
               variables: {
@@ -96,7 +96,7 @@ export const Dev: React.FC = () => {
       <h1>bookmark list</h1>
       <button
         onClick={async () => {
-          const res = await API.post("temp", "/test", {
+          const res = await API.post("temp", "/private", {
             body: {
               operation: "bookmarkList",
             },
@@ -110,7 +110,7 @@ export const Dev: React.FC = () => {
       <h1>item list</h1>
       <button
         onClick={async () => {
-          const res = await API.post("temp", "/test", {
+          const res = await API.post("temp", "/private", {
             body: {
               operation: "itemList",
             },

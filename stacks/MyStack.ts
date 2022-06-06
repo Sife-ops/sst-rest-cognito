@@ -27,12 +27,11 @@ export function MyStack({ stack }: StackContext) {
       },
     },
     routes: {
+      "POST /private": "functions/private.handler",
       "GET /public": {
         function: "functions/public.handler",
         authorizer: "none",
       },
-      "POST /test": "functions/test.handler",
-      "POST /private": "functions/private.handler",
     },
   });
   api.attachPermissions([table]);
