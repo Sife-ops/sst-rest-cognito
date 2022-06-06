@@ -55,9 +55,7 @@ const bookmarkList: OperationFn<undefined, "bookmarks undefined"> = async (
     };
   });
 
-  if (!bookmarks) {
-    return Err("bookmarks undefined");
-  }
+  if (!bookmarks) return Err("bookmarks undefined");
 
   return Ok(bookmarks);
 };

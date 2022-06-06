@@ -7,15 +7,11 @@ const bookmarkCreate: OperationFn<
   { name: string; description: string; url: string; favorite: boolean },
   "invalid arguments"
 > = async (args) => {
-  if (!args.body.variables) {
-    return Err("invalid arguments");
-  }
+  if (!args.body.variables) return Err("invalid arguments");
 
   const { description, name, url, favorite = false } = args.body.variables;
 
-  if (!name || !url) {
-    return Err("invalid arguments");
-  }
+  if (!name || !url) return Err("invalid arguments");
 
   const res = await db
     .put({

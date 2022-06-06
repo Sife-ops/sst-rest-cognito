@@ -18,9 +18,7 @@ const itemList: OperationFn<undefined, "items undefined"> = async (args) => {
       return e;
     });
 
-  if (!res.Items) {
-    return Err("items undefined");
-  }
+  if (!res.Items) return Err("items undefined");
 
   return Ok(res.Items);
 };

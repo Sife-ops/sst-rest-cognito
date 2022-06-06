@@ -7,15 +7,11 @@ const categoryCreate: OperationFn<
   { name: string; description: string },
   "invalid arguments"
 > = async (args) => {
-  if (!args.body.variables) {
-    return Err("invalid arguments");
-  }
+  if (!args.body.variables) return Err("invalid arguments");
 
   const { description, name } = args.body.variables;
 
-  if (!name) {
-    return Err("invalid arguments");
-  }
+  if (!name) return Err("invalid arguments");
 
   // todo: why create returns null?
   const res = await db

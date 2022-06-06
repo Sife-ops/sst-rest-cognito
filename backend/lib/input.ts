@@ -1,6 +1,6 @@
 export interface PrivateHandlerInput {
   operation: "bookmarkList" | "itemList" | "categoryCreate" | "bookmarkCreate";
-  variables?: any;
+  variables: any;
 }
 
 export interface OperationInput<T> {
