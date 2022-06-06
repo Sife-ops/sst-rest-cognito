@@ -15,45 +15,13 @@ export const Dev: React.FC = () => {
 
   return (
     <div className="App">
-      <h1>test endpoint</h1>
-      <button
-        onClick={async () => {
-          const res = await API.post("temp", "/test", {
-            body: {
-              operation: "itemList",
-              variables: {
-                name: "foo",
-                age: 3,
-              },
-            },
-          });
-          console.log(res);
-        }}
-      >
-        submit
-      </button>
-
-      <h1>list bookmarks</h1>
-      <button
-        onClick={async () => {
-          const res = await API.post("temp", "/private", {
-            body: {
-              operation: "bookmark-list",
-            },
-          });
-          console.log(res);
-        }}
-      >
-        submit
-      </button>
-
-      <h1>create bookmark</h1>
+      <h1>bookmark create</h1>
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          const res = await API.post("temp", "/private", {
+          const res = await API.post("temp", "/test", {
             body: {
-              operation: "bookmark-create",
+              operation: "bookmarkCreate",
               variables: {
                 name,
                 description,
@@ -98,9 +66,9 @@ export const Dev: React.FC = () => {
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          const res = await API.post("temp", "/private", {
+          const res = await API.post("temp", "/test", {
             body: {
-              operation: "category-create",
+              operation: "categoryCreate",
               variables: {
                 name,
                 description,
@@ -125,6 +93,34 @@ export const Dev: React.FC = () => {
         <button type="submit">submit</button>
       </form>
 
+      <h1>bookmark list</h1>
+      <button
+        onClick={async () => {
+          const res = await API.post("temp", "/test", {
+            body: {
+              operation: "bookmarkList",
+            },
+          });
+          console.log(res);
+        }}
+      >
+        submit
+      </button>
+
+      <h1>item list</h1>
+      <button
+        onClick={async () => {
+          const res = await API.post("temp", "/test", {
+            body: {
+              operation: "itemList",
+            },
+          });
+          console.log(res);
+        }}
+      >
+        submit
+      </button>
+
       <h1>public</h1>
       <button
         onClick={async () => {
@@ -135,20 +131,6 @@ export const Dev: React.FC = () => {
         public
       </button>
       <br />
-
-      <h1>list items</h1>
-      <button
-        onClick={async () => {
-          const res = await API.post("temp", "/private", {
-            body: {
-              operation: "item-list",
-            },
-          });
-          console.log(res);
-        }}
-      >
-        list
-      </button>
     </div>
   );
 };
