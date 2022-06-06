@@ -1,7 +1,8 @@
+import { Ok, Err } from "ts-results";
 import { OperationFn } from "./operation";
 import { db } from "../service";
 
-const itemList: OperationFn<undefined> = async (args) => {
+const itemList: OperationFn<undefined, "items undefined"> = async (args) => {
   const res = await db
     .query({
       // todo: remove the bang
@@ -17,7 +18,11 @@ const itemList: OperationFn<undefined> = async (args) => {
       return e;
     });
 
-  return res.Items;
+  if (!res.Items) {
+    return Err("items undefined");
+  }
+
+  return Ok(res.Items);
 };
 
 export default itemList;

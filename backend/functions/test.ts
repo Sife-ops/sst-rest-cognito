@@ -24,22 +24,33 @@ const lambdaHandler: PrivateHandler<PrivateHandlerInput> = async (event) => {
   } = event;
 
   try {
-    const res = await operations[operation]({ accountId, body });
+    const result = await operations[operation]({ accountId, body });
+
+    if (result.ok) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          success: true,
+          data: result.val,
+        }),
+      };
+    } else {
+      return {
+        // todo: incorrect code
+        statusCode: 400,
+        body: JSON.stringify({
+          success: false,
+          message: result.val,
+        }),
+      };
+    }
+  } catch (error) {
     return {
-      statusCode: 200,
-      body: JSON.stringify({
-        success: true,
-        data: res,
-      }),
-    };
-  } catch (e) {
-    return {
-      // todo: incorrect code
-      statusCode: 400,
+      statusCode: 500,
       body: JSON.stringify({
         success: false,
-        // todo: extract message
-        message: e,
+        message: "unknown error",
+        error,
       }),
     };
   }

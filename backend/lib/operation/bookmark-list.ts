@@ -1,7 +1,10 @@
+import { Ok, Err } from "ts-results";
 import { OperationFn } from "./operation";
 import { db } from "../service";
 
-const bookmarkList: OperationFn<undefined> = async (args) => {
+const bookmarkList: OperationFn<undefined, "bookmarks undefined"> = async (
+  args
+) => {
   const bookmarksRes = await db
     .query({
       TableName: process.env.tableName!,
@@ -52,7 +55,11 @@ const bookmarkList: OperationFn<undefined> = async (args) => {
     };
   });
 
-  return bookmarks;
+  if (!bookmarks) {
+    return Err("bookmarks undefined");
+  }
+
+  return Ok(bookmarks);
 };
 
 export default bookmarkList;
