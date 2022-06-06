@@ -2,14 +2,12 @@ import jsonBodyParser from "@middy/http-json-body-parser";
 import middy from "@middy/core";
 import operations from "../lib/operation";
 import { PrivateHandlerInput } from "../lib/input";
-import { formatJSONResponse } from "../lib/response";
 
 import type {
   APIGatewayProxyEvent,
   APIGatewayProxyResult,
   Handler,
 } from "aws-lambda";
-import { resolve } from "path";
 
 type PrivateHandler<S> = Handler<
   Omit<APIGatewayProxyEvent, "body"> & {

@@ -1,6 +1,5 @@
 import { OperationFn } from "./operation";
 import { db } from "../service";
-import { formatJSONResponse } from "../response";
 
 const bookmarkList: OperationFn<undefined> = async (args) => {
   const bookmarksRes = await db
