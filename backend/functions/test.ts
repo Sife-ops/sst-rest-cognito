@@ -9,6 +9,7 @@ import type {
   APIGatewayProxyResult,
   Handler,
 } from "aws-lambda";
+import { resolve } from "path";
 
 type PrivateHandler<S> = Handler<
   Omit<APIGatewayProxyEvent, "body"> & {
@@ -17,9 +18,6 @@ type PrivateHandler<S> = Handler<
   APIGatewayProxyResult
 >;
 
-/**
- * handler
- */
 const lambdaHandler: PrivateHandler<PrivateHandlerInput> = async (event) => {
   const {
     body,
@@ -27,8 +25,26 @@ const lambdaHandler: PrivateHandler<PrivateHandlerInput> = async (event) => {
     requestContext: { accountId },
   } = event;
 
-  const res = await operations[operation]({ accountId, body });
-  return formatJSONResponse(res);
+  try {
+    const res = await operations[operation]({ accountId, body });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        success: true,
+        data: res,
+      }),
+    };
+  } catch (e) {
+    return {
+      // todo: incorrect code
+      statusCode: 400,
+      body: JSON.stringify({
+        success: false,
+        // todo: extract message
+        message: e,
+      }),
+    };
+  }
 };
 
 export const handler = middy(lambdaHandler).use(jsonBodyParser());
