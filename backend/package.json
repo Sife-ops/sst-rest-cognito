@@ -7,8 +7,7 @@
     "@middy/core": "^3.0.3",
     "@middy/http-json-body-parser": "^3.0.3",
     "@middy/validator": "^3.0.3",
-    "aws-sdk": "^2.1145.0",
-    "json-schema-to-ts": "^2.5.3"
+    "aws-sdk": "^2.1145.0"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.97"
