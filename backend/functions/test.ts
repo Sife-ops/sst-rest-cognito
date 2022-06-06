@@ -23,37 +23,37 @@ const lambdaHandler: PrivateHandler<PrivateHandlerInput> = async (event) => {
     requestContext: { accountId },
   } = event;
 
-  try {
-    const result = await operations[operation]({ accountId, body });
+  // try {
+  const result = await operations[operation]({ accountId, body });
 
-    if (result.ok) {
-      return {
-        statusCode: 200,
-        body: JSON.stringify({
-          success: true,
-          data: result.val,
-        }),
-      };
-    } else {
-      return {
-        // todo: incorrect code
-        statusCode: 400,
-        body: JSON.stringify({
-          success: false,
-          message: result.val,
-        }),
-      };
-    }
-  } catch (error) {
+  if (result.ok) {
     return {
-      statusCode: 500,
+      statusCode: 200,
+      body: JSON.stringify({
+        success: true,
+        data: result.val,
+      }),
+    };
+  } else {
+    return {
+      // todo: incorrect code
+      statusCode: 400,
       body: JSON.stringify({
         success: false,
-        message: "unknown error",
-        error,
+        message: result.val,
       }),
     };
   }
+  // } catch (error) {
+  //   return {
+  //     statusCode: 500,
+  //     body: JSON.stringify({
+  //       success: false,
+  //       message: "unknown error",
+  //       error,
+  //     }),
+  //   };
+  // }
 };
 
 export const handler = middy(lambdaHandler).use(jsonBodyParser());

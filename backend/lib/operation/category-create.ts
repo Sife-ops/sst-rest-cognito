@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import { Ok, Err } from "ts-results";
 import { OperationFn } from "./operation";
 import { db } from "../service";
@@ -6,12 +7,17 @@ const categoryCreate: OperationFn<
   { name: string; description: string },
   "invalid arguments"
 > = async (args) => {
+  if (!args.body.variables) {
+    return Err("invalid arguments");
+  }
+
   const { description, name } = args.body.variables;
 
   if (!name) {
     return Err("invalid arguments");
   }
 
+  // todo: why create returns null?
   const res = await db
     .put({
       TableName: process.env.tableName!,

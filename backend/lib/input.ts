@@ -1,5 +1,5 @@
 export interface PrivateHandlerInput {
-  operation: "bookmarkList" | "itemList";
+  operation: "bookmarkList" | "itemList" | "categoryCreate";
   variables?: any;
 }
 
