@@ -53,7 +53,7 @@ const bookmarkList: OperationFn<undefined> = async (args) => {
     };
   });
 
-  return formatJSONResponse(bookmarks);
+  return bookmarks;
 };
 
 export default bookmarkList;

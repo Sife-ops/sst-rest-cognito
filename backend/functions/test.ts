@@ -2,6 +2,7 @@ import jsonBodyParser from "@middy/http-json-body-parser";
 import middy from "@middy/core";
 import operations from "../lib/operation";
 import { PrivateHandlerInput } from "../lib/input";
+import { formatJSONResponse } from "../lib/response";
 
 import type {
   APIGatewayProxyEvent,
@@ -26,7 +27,8 @@ const lambdaHandler: PrivateHandler<PrivateHandlerInput> = async (event) => {
     requestContext: { accountId },
   } = event;
 
-  return await operations[operation]({ accountId, body });
+  const res = await operations[operation]({ accountId, body });
+  return formatJSONResponse(res);
 };
 
 export const handler = middy(lambdaHandler).use(jsonBodyParser());

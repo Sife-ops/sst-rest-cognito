@@ -3,7 +3,7 @@ export interface PrivateHandlerInput {
   variables?: any;
 }
 
-export interface OperationInput2<T> {
+export interface OperationInput<T> {
   accountId: string;
   body: Omit<PrivateHandlerInput, "variables"> & {
     variables?: T;
