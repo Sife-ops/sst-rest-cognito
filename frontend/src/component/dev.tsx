@@ -20,7 +20,7 @@ export const Dev: React.FC = () => {
         onClick={async () => {
           const res = await API.post("temp", "/test", {
             body: {
-              operation: "bookmark-list",
+              operation: "itemList",
               variables: {
                 name: "foo",
                 age: 3,

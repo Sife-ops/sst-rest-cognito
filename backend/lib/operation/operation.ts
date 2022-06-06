@@ -1,4 +1,6 @@
 import type { APIGatewayProxyResult } from "aws-lambda";
-import { OperationInput } from "../input";
+import { OperationInput2 } from "../input";
 
-export type OperationFn = (p: OperationInput) => Promise<APIGatewayProxyResult>;
+export type OperationFn<T> = (
+  p: OperationInput2<T>
+) => Promise<APIGatewayProxyResult>;

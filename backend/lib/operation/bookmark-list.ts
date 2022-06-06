@@ -2,7 +2,7 @@ import { OperationFn } from "./operation";
 import { db } from "../service";
 import { formatJSONResponse } from "../response";
 
-const bookmarkList: OperationFn = async (args) => {
+const bookmarkList: OperationFn<undefined> = async (args) => {
   const bookmarksRes = await db
     .query({
       TableName: process.env.tableName!,
