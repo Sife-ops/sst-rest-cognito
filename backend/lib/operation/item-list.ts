@@ -1,4 +1,4 @@
-import model from '../model';
+// todo: delete file
 import { Ok } from 'ts-results';
 import { OperationFn } from './operation';
 

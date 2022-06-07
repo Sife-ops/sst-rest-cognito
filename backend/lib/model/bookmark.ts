@@ -6,9 +6,9 @@ class BookmarkClass extends Document {
   pk: string;
   sk: string;
   name: string;
-  description: string;
+  description?: string;
   url: string;
-  favorite: string;
+  favorite: boolean;
 }
 
 const bookmarkSchema = new dynamoose.Schema({
