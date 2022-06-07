@@ -1,28 +1,10 @@
-import { Ok, Err } from "ts-results";
+import model from "../model";
+import { Ok } from "ts-results";
 import { OperationFn } from "./operation";
-import { db } from "../service";
 
-const itemList: OperationFn<{}, "items undefined"> = async ({
-  accountId,
-}) => {
-  const res = await db
-    .query({
-      // todo: remove the bang
-      TableName: process.env.tableName!,
-      KeyConditionExpression: "pk = :user",
-      ExpressionAttributeValues: {
-        ":user": `user:${accountId}`,
-      },
-    })
-    .promise()
-    .then((e) => {
-      console.log(e);
-      return e;
-    });
-
-  if (!res.Items) return Err("items undefined");
-
-  return Ok(res.Items);
+const itemList: OperationFn = async ({ accountId }) => {
+  const res = await model.query("pk").eq(`user:${accountId}`).exec();
+  return Ok(res.toJSON());
 };
 
 export default itemList;
