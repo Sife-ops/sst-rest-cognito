@@ -1,11 +1,11 @@
-import "./index.css";
-import App from "./App";
-import React from "react";
-import ReactDOM from "react-dom/client";
-import reportWebVitals from "./reportWebVitals";
-import { Amplify } from "aws-amplify";
-import { env } from "./constant";
-import { BrowserRouter } from "react-router-dom";
+import './index.css';
+import App from './App';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import reportWebVitals from './reportWebVitals';
+import { Amplify } from 'aws-amplify';
+import { env } from './constant';
+import { BrowserRouter } from 'react-router-dom';
 
 Amplify.configure({
   Auth: {
@@ -18,7 +18,7 @@ Amplify.configure({
   API: {
     endpoints: [
       {
-        name: "temp",
+        name: 'temp',
         endpoint: env.apiGateway.URL,
         region: env.apiGateway.REGION,
       },
@@ -27,7 +27,7 @@ Amplify.configure({
 });
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>

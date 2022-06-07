@@ -1,10 +1,10 @@
-import React from "react";
-import { API, Auth } from "aws-amplify";
+import React from 'react';
+import { API, Auth } from 'aws-amplify';
 
 export const Dev: React.FC = () => {
-  const [name, setName] = React.useState("");
-  const [description, setDescription] = React.useState("");
-  const [url, setUrl] = React.useState("");
+  const [name, setName] = React.useState('');
+  const [description, setDescription] = React.useState('');
+  const [url, setUrl] = React.useState('');
   const [favorite, setFavorite] = React.useState(false);
 
   React.useEffect(() => {
@@ -19,9 +19,9 @@ export const Dev: React.FC = () => {
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          const res = await API.post("temp", "/private", {
+          const res = await API.post('temp', '/private', {
             body: {
-              operation: "bookmarkCreate",
+              operation: 'bookmarkCreate',
               variables: {
                 name,
                 description,
@@ -66,9 +66,9 @@ export const Dev: React.FC = () => {
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          const res = await API.post("temp", "/private", {
+          const res = await API.post('temp', '/private', {
             body: {
-              operation: "categoryCreate",
+              operation: 'categoryCreate',
               variables: {
                 name,
                 description,
@@ -96,9 +96,9 @@ export const Dev: React.FC = () => {
       <h1>bookmark list</h1>
       <button
         onClick={async () => {
-          const res = await API.post("temp", "/private", {
+          const res = await API.post('temp', '/private', {
             body: {
-              operation: "bookmarkList",
+              operation: 'bookmarkList',
             },
           });
           console.log(res);
@@ -110,9 +110,9 @@ export const Dev: React.FC = () => {
       <h1>item list</h1>
       <button
         onClick={async () => {
-          const res = await API.post("temp", "/private", {
+          const res = await API.post('temp', '/private', {
             body: {
-              operation: "itemList",
+              operation: 'itemList',
             },
           });
           console.log(res);
@@ -124,7 +124,7 @@ export const Dev: React.FC = () => {
       <h1>public</h1>
       <button
         onClick={async () => {
-          const res = await API.get("temp", "/public", {});
+          const res = await API.get('temp', '/public', {});
           console.log(res);
         }}
       >

@@ -1,10 +1,10 @@
-import "./App.css";
-import React from "react";
-import { Auth } from "aws-amplify";
-import { Dev } from "./component/dev";
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
-import { SignIn } from "./component/sign-in";
-import { SignUp } from "./component/sign-up";
+import './App.css';
+import React from 'react';
+import { Auth } from 'aws-amplify';
+import { Dev } from './component/dev';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { SignIn } from './component/sign-in';
+import { SignUp } from './component/sign-up';
 
 const Landing: React.FC = () => {
   return <div>landing</div>;
@@ -19,10 +19,10 @@ function App() {
     async function checkSignedIn() {
       try {
         const user = await Auth.currentAuthenticatedUser();
-        localStorage.setItem("userId", user.username);
+        localStorage.setItem('userId', user.username);
         setIsSignedIn(true);
       } catch (e) {
-        localStorage.removeItem("userId");
+        localStorage.removeItem('userId');
         setIsSignedIn(false);
       }
     }
@@ -32,7 +32,7 @@ function App() {
   return (
     <div>
       <ul>
-        <li onClick={() => nav("/")}>landing</li>
+        <li onClick={() => nav('/')}>landing</li>
         {isSignedIn ? (
           <li
             onClick={async () => {
@@ -44,11 +44,11 @@ function App() {
           </li>
         ) : (
           <>
-            <li onClick={() => nav("/signin")}>sign in</li>
-            <li onClick={() => nav("/signup")}>sign up</li>
+            <li onClick={() => nav('/signin')}>sign in</li>
+            <li onClick={() => nav('/signup')}>sign up</li>
           </>
         )}
-        <li onClick={() => nav("/dev")}>dev</li>
+        <li onClick={() => nav('/dev')}>dev</li>
       </ul>
 
       {isSignedIn ? (

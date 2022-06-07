@@ -1,12 +1,12 @@
-import { Auth } from "aws-amplify";
-import { useState } from "react";
+import { Auth } from 'aws-amplify';
+import { useState } from 'react';
 
 export const SignUp: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const [confirmEmail, setConfirmEmail] = useState("");
-  const [confirmCode, setConfirmCode] = useState("");
+  const [confirmEmail, setConfirmEmail] = useState('');
+  const [confirmCode, setConfirmCode] = useState('');
 
   return (
     <div className="App">
@@ -16,7 +16,7 @@ export const SignUp: React.FC = () => {
           e.preventDefault();
           try {
             const res = await Auth.signUp(email, password);
-            console.log("auth", res);
+            console.log('auth', res);
             setConfirmEmail(email);
           } catch (e) {
             console.log(e);
@@ -46,7 +46,7 @@ export const SignUp: React.FC = () => {
           e.preventDefault();
           try {
             const res = await Auth.confirmSignUp(confirmEmail, confirmCode);
-            console.log("auth", res);
+            console.log('auth', res);
           } catch (e) {
             console.log(e);
           }

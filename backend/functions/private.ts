@@ -1,17 +1,17 @@
-import jsonBodyParser from "@middy/http-json-body-parser";
-import middy from "@middy/core";
-import operations from "../lib/operation";
+import jsonBodyParser from '@middy/http-json-body-parser';
+import middy from '@middy/core';
+import operations from '../lib/operation';
 
-import type { APIGatewayProxyEvent, Handler } from "aws-lambda";
+import type { APIGatewayProxyEvent, Handler } from 'aws-lambda';
 
 const lambdaHandler: Handler<
-  Omit<APIGatewayProxyEvent, "body"> & {
+  Omit<APIGatewayProxyEvent, 'body'> & {
     body: {
       operation:
-        | "bookmarkList"
-        | "itemList"
-        | "categoryCreate"
-        | "bookmarkCreate";
+        | 'bookmarkList'
+        | 'itemList'
+        | 'categoryCreate'
+        | 'bookmarkCreate';
       variables: any;
     };
   }

@@ -1,4 +1,4 @@
-import { Result } from "ts-results";
+import { Result } from 'ts-results';
 
 export type OperationFn<T = {}, E = undefined> = (args: {
   accountId: string;

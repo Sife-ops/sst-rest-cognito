@@ -1,11 +1,11 @@
-import { Auth } from "aws-amplify";
-import { useState } from "react";
+import { Auth } from 'aws-amplify';
+import { useState } from 'react';
 
 export const SignIn: React.FC<{
   setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }> = (p) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   return (
     <div className="App">
