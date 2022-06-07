@@ -1,15 +1,15 @@
-import crypto from "crypto";
-import { Ok, Err } from "ts-results";
-import { OperationFn } from "./operation";
-import { db } from "../service";
+import crypto from 'crypto';
+import { Ok, Err } from 'ts-results';
+import { OperationFn } from './operation';
+import { db } from '../service';
 
 const bookmarkCreate: OperationFn<
   { name: string; description: string; url: string; favorite: boolean },
-  "invalid arguments"
+  'invalid arguments'
 > = async ({ accountId, variables }) => {
-  const { description, name, url, favorite = false } = variables!;
+  if (!variables.name || !variables.url) return Err('invalid arguments');
 
-  if (!name || !url) return Err("invalid arguments");
+  const { description, name, url, favorite = false } = variables!;
 
   const res = await db
     .put({

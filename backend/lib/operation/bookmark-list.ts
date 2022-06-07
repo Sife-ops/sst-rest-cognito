@@ -1,11 +1,8 @@
 import model from '../model';
-import { Ok, Err } from 'ts-results';
+import { Ok } from 'ts-results';
 import { OperationFn } from './operation';
-import { db } from '../service';
 
-const bookmarkList: OperationFn<{}, 'bookmarks undefined'> = async ({
-  accountId,
-}) => {
+const bookmarkList: OperationFn = async ({ accountId }) => {
   const bookmarksRes = await model
     .query('pk')
     .eq(`user:${accountId}`)

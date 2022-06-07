@@ -1,13 +1,13 @@
-import crypto from "crypto";
-import { Ok, Err } from "ts-results";
-import { OperationFn } from "./operation";
-import { db } from "../service";
+import crypto from 'crypto';
+import { Ok, Err } from 'ts-results';
+import { OperationFn } from './operation';
+import { db } from '../service';
 
 const categoryCreate: OperationFn<
   { name: string; description: string },
-  "invalid arguments"
+  'invalid arguments'
 > = async ({ accountId, variables }) => {
-  if (!variables || !variables.name) return Err("invalid arguments");
+  if (!variables || !variables.name) return Err('invalid arguments');
 
   const { description, name } = variables;
 
@@ -23,7 +23,7 @@ const categoryCreate: OperationFn<
     })
     .promise()
     .then((e) => {
-      console.log(e);
+      // console.log(e);
       return e;
     });
 
