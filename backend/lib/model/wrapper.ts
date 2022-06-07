@@ -1,0 +1,10 @@
+import dynamoose from 'dynamoose';
+import { Document } from 'dynamoose/dist/Document';
+import { ModelType } from 'dynamoose/dist/General';
+import { Schema } from 'dynamoose/dist/Schema';
+
+// todo: rename
+export const wrapper = <T extends Document>(s: Schema): ModelType<T> => {
+  if (!process.env.tableName) throw new Error('table name undefined');
+  return dynamoose.model<T>(process.env.tableName, s);
+};

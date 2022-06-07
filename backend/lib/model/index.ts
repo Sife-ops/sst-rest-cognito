@@ -1,18 +1,8 @@
-import dynamoose from 'dynamoose';
+import bookmark from './bookmark';
+import category from './category';
 
-import Bookmark from './bookmark';
-import Category from './category';
-
-if (!process.env.tableName) throw new Error('table name undefined');
-
-export default dynamoose.model(process.env.tableName, [
+export default {
   //
-  Bookmark,
-  Category,
-]);
-
-// export {
-//   //
-//   Bookmark,
-//   Category,
-// };
+  bookmark,
+  category,
+};

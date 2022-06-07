@@ -1,6 +1,17 @@
-import dynamoose from "dynamoose";
+import dynamoose from 'dynamoose';
+import { Document } from 'dynamoose/dist/Document';
+import { wrapper } from './wrapper';
 
-export default new dynamoose.Schema({
+class BookmarkClass extends Document {
+  pk: string;
+  sk: string;
+  name: string;
+  description: string;
+  url: string;
+  favorite: string;
+}
+
+const bookmarkSchema = new dynamoose.Schema({
   pk: {
     type: String,
     hashKey: true,
@@ -25,3 +36,5 @@ export default new dynamoose.Schema({
     default: false,
   },
 });
+
+export default wrapper<BookmarkClass>(bookmarkSchema);

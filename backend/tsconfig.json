@@ -6,6 +6,8 @@
     "target": "es2017",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "strictPropertyInitialization": false /* Check for class properties that are declared but not set in the constructor. */,
+
   }
 }

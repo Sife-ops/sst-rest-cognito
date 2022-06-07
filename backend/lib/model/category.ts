@@ -1,6 +1,15 @@
-import dynamoose from "dynamoose";
+import dynamoose from 'dynamoose';
+import { Document } from 'dynamoose/dist/Document';
+import { wrapper } from './wrapper';
 
-export default new dynamoose.Schema({
+export class CategoryClass extends Document {
+  pk: string;
+  sk: string;
+  name: string;
+  description: string;
+}
+
+const categorySchema = new dynamoose.Schema({
   pk: {
     type: String,
     hashKey: true,
@@ -17,3 +26,5 @@ export default new dynamoose.Schema({
     type: String,
   },
 });
+
+export default wrapper<CategoryClass>(categorySchema);
