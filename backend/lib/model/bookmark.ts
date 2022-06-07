@@ -1,6 +1,6 @@
 import dynamoose from 'dynamoose';
 import { Document } from 'dynamoose/dist/Document';
-import { wrapper } from './wrapper';
+import { entity } from './entity';
 
 class BookmarkClass extends Document {
   pk: string;
@@ -37,4 +37,4 @@ const bookmarkSchema = new dynamoose.Schema({
   },
 });
 
-export default wrapper<BookmarkClass>(bookmarkSchema);
+export default entity<BookmarkClass>(bookmarkSchema);

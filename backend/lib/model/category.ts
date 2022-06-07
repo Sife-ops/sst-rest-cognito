@@ -1,6 +1,6 @@
 import dynamoose from 'dynamoose';
 import { Document } from 'dynamoose/dist/Document';
-import { wrapper } from './wrapper';
+import { entity } from './entity';
 
 export class CategoryClass extends Document {
   pk: string;
@@ -27,4 +27,4 @@ const categorySchema = new dynamoose.Schema({
   },
 });
 
-export default wrapper<CategoryClass>(categorySchema);
+export default entity<CategoryClass>(categorySchema);
