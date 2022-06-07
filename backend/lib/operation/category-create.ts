@@ -6,7 +6,7 @@ import { db } from "../service";
 const categoryCreate: OperationFn<
   { name: string; description: string },
   "invalid arguments"
-> = async ({ accountId, body: { variables } }) => {
+> = async ({ accountId, variables }) => {
   if (!variables || !variables.name) return Err("invalid arguments");
 
   const { description, name } = variables;

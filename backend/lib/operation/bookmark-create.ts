@@ -6,10 +6,8 @@ import { db } from "../service";
 const bookmarkCreate: OperationFn<
   { name: string; description: string; url: string; favorite: boolean },
   "invalid arguments"
-> = async (args) => {
-  if (!args.body.variables) return Err("invalid arguments");
-
-  const { description, name, url, favorite = false } = args.body.variables;
+> = async ({ accountId, variables }) => {
+  const { description, name, url, favorite = false } = variables!;
 
   if (!name || !url) return Err("invalid arguments");
 
@@ -17,7 +15,7 @@ const bookmarkCreate: OperationFn<
     .put({
       TableName: process.env.tableName!,
       Item: {
-        pk: `user:${args.accountId}`,
+        pk: `user:${accountId}`,
         sk: `bookmark:${crypto.randomUUID()}`,
         name,
         description,

@@ -2,14 +2,16 @@ import { Ok, Err } from "ts-results";
 import { OperationFn } from "./operation";
 import { db } from "../service";
 
-const itemList: OperationFn<undefined, "items undefined"> = async (args) => {
+const itemList: OperationFn<{}, "items undefined"> = async ({
+  accountId,
+}) => {
   const res = await db
     .query({
       // todo: remove the bang
       TableName: process.env.tableName!,
       KeyConditionExpression: "pk = :user",
       ExpressionAttributeValues: {
-        ":user": `user:${args.accountId}`,
+        ":user": `user:${accountId}`,
       },
     })
     .promise()

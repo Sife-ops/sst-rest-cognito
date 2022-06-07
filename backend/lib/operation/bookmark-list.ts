@@ -2,15 +2,15 @@ import { Ok, Err } from "ts-results";
 import { OperationFn } from "./operation";
 import { db } from "../service";
 
-const bookmarkList: OperationFn<undefined, "bookmarks undefined"> = async (
-  args
-) => {
+const bookmarkList: OperationFn<{}, "bookmarks undefined"> = async ({
+  accountId,
+}) => {
   const bookmarksRes = await db
     .query({
       TableName: process.env.tableName!,
       KeyConditionExpression: "pk = :pk and begins_with(sk, :sk)",
       ExpressionAttributeValues: {
-        ":pk": `user:${args.accountId}`,
+        ":pk": `user:${accountId}`,
         ":sk": `bookmark:`,
       },
     })
@@ -25,7 +25,7 @@ const bookmarkList: OperationFn<undefined, "bookmarks undefined"> = async (
       TableName: process.env.tableName!,
       KeyConditionExpression: "pk = :pk and begins_with(sk, :sk)",
       ExpressionAttributeValues: {
-        ":pk": `user:${args.accountId}`,
+        ":pk": `user:${accountId}`,
         ":sk": `category:`,
       },
     })

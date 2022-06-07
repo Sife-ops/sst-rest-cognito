@@ -1,6 +1,6 @@
 import { Result } from "ts-results";
-import { OperationInput } from "../input";
 
-export type OperationFn<T, E> = (
-  args: OperationInput<T>
-) => Promise<Result<unknown, E>>;
+export type OperationFn<T, E> = (args: {
+  accountId: string;
+  variables: T;
+}) => Promise<Result<unknown, E>>;
