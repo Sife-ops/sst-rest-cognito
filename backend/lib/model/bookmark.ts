@@ -1,8 +1,7 @@
 import dynamoose from 'dynamoose';
-import { Document } from 'dynamoose/dist/Document';
-import { entity } from './entity';
+import { EntityClass, entity } from './entity';
 
-class BookmarkClass extends Document {
+export class BookmarkClass extends EntityClass {
   pk: string;
   sk: string;
   name: string;

@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import { EntityClass } from '../model/entity';
 import { ModelType } from 'dynamoose/dist/General';
 
-export default class<T extends EntityClass, K extends keyof T> {
+export class Repo<T extends EntityClass, K extends keyof T> {
   accountId: string;
   model: ModelType<T>;
   modelName: string;

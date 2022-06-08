@@ -1,5 +1,4 @@
 import dynamoose from 'dynamoose';
-import { Document } from 'dynamoose/dist/Document';
 import { EntityClass, entity } from './entity';
 
 export class CategoryClass extends EntityClass {
