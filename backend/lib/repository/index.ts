@@ -1,11 +1,11 @@
 import model from '../model';
-import { Repo } from './repo';
 import { BookmarkClass } from '../model/bookmark';
 import { CategoryClass } from '../model/category';
+import { Repo } from './repo';
 
 export default class {
-  categoryRepo: Repo<CategoryClass, 'name'>;
   bookmarkRepo: Repo<BookmarkClass, 'name' | 'url'>;
+  categoryRepo: Repo<CategoryClass, 'name'>;
 
   constructor(accountId: string) {
     this.categoryRepo = new Repo<CategoryClass, 'name'>(

@@ -2,9 +2,8 @@ import Repository from '../lib/repository';
 import jsonBodyParser from '@middy/http-json-body-parser';
 import middy from '@middy/core';
 import operations from '../lib/operation';
-import { formatResponse } from '../lib/response';
-
 import type { APIGatewayProxyEvent, Handler } from 'aws-lambda';
+import { formatResponse } from '../lib/response';
 
 const lambdaHandler: Handler<
   Omit<APIGatewayProxyEvent, 'body'> & {
@@ -19,9 +18,9 @@ const lambdaHandler: Handler<
   }
 > = async (event) => {
   const {
-    body: { variables },
-    body: { operation },
     requestContext: { accountId },
+    body: { operation },
+    body: { variables },
   } = event;
 
   const repository = new Repository(accountId);
