@@ -1,8 +1,8 @@
+import Repository from '../lib/repository';
 import jsonBodyParser from '@middy/http-json-body-parser';
 import middy from '@middy/core';
 import operations from '../lib/operation';
 import { formatResponse } from '../lib/response';
-import Repository from '../lib/repository';
 
 import type { APIGatewayProxyEvent, Handler } from 'aws-lambda';
 
@@ -25,9 +25,10 @@ const lambdaHandler: Handler<
   } = event;
 
   const repository = new Repository(accountId);
+
   // todo: delete
   const res = await repository.categoryRepo.create({
-    name: 'asdf',
+    name: 'asdf333334',
   });
   console.log(res);
 

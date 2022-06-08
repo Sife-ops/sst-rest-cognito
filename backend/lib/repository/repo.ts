@@ -4,14 +4,14 @@ import { EntityClass } from '../model/entity';
 import { ModelType } from 'dynamoose/dist/General';
 
 export class Repo<T extends EntityClass, K extends keyof T> {
+  private modelName: string;
   private accountId: string;
   private model: ModelType<T>;
-  private modelName: string;
 
-  constructor(accountId: string, model: ModelType<T>) {
+  constructor(modelName: string, accountId: string, model: ModelType<T>) {
+    this.modelName = this.modelName;
     this.accountId = accountId;
     this.model = model;
-    this.modelName = this.model.constructor.name;
   }
 
   create: t.CreateUpdateFn<T, K> = async (entity) => {

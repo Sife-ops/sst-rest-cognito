@@ -9,11 +9,13 @@ export default class {
 
   constructor(accountId: string) {
     this.categoryRepo = new Repo<CategoryClass, 'name'>(
+      'Category',
       accountId,
       model.category
     );
 
     this.bookmarkRepo = new Repo<BookmarkClass, 'name' | 'url'>(
+      'Bookmark',
       accountId,
       model.bookmark
     );
