@@ -3,7 +3,7 @@ import { Repo } from './repo';
 import { BookmarkClass } from '../model/bookmark';
 import { CategoryClass } from '../model/category';
 
-class Repository {
+export default class {
   categoryRepo: Repo<CategoryClass, 'name'>;
   bookmarkRepo: Repo<BookmarkClass, 'name' | 'url'>;
 

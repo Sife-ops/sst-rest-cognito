@@ -4,9 +4,9 @@ import { EntityClass } from '../model/entity';
 import { ModelType } from 'dynamoose/dist/General';
 
 export class Repo<T extends EntityClass, K extends keyof T> {
-  accountId: string;
-  model: ModelType<T>;
-  modelName: string;
+  private accountId: string;
+  private model: ModelType<T>;
+  private modelName: string;
 
   constructor(accountId: string, model: ModelType<T>) {
     this.accountId = accountId;

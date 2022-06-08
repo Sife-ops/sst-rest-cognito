@@ -5,7 +5,7 @@ export class BookmarkClass extends EntityClass {
   pk: string;
   sk: string;
   name: string;
-  description: string;
+  description?: string;
   url: string;
   favorite: boolean;
   category: string;
