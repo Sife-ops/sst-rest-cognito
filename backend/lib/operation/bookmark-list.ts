@@ -2,44 +2,32 @@ import { Ok } from 'ts-results';
 import { OperationFn } from './operation';
 
 const bookmarkList: OperationFn = async ({ repository }) => {
-  // const bookmarksRes = await model.bookmark
-  //   .query('pk')
-  //   .eq(`user:${accountId}`)
-  //   .where('sk')
-  //   .beginsWith('bookmark')
-  //   .exec();
+  const bookmarks = await repository.bookmarkRepo.list();
+  const categories = await repository.categoryRepo.list();
 
-  // const categoriesRes = await model.category
-  //   .query('pk')
-  //   .eq(`user:${accountId}`)
-  //   .where('sk')
-  //   .beginsWith('category')
-  //   .exec();
+  const response = bookmarks.reduce((acc: unknown[], cur, _, arr) => {
+    if (cur.sk.includes('Category')) return acc;
 
-  // const bookmarks = bookmarksRes.map((bookmark) => {
-  //   const categories = categoriesRes.reduce(
-  //     (acc: CategoryClass[], cur, _, arr) => {
-  //       if (cur.sk.includes(bookmark.sk)) {
-  //         const category = arr.find((category) => {
-  //           return category.sk === cur.sk.split('#')[0];
-  //         });
-  //         if (category) {
-  //           return [...acc, category];
-  //         }
-  //       }
-  //       return acc;
-  //     },
-  //     []
-  //   );
-  //   return {
-  //     ...bookmark,
-  //     categories,
-  //   };
-  // });
+    const bookmarkCategorySks = arr
+      .filter((e) => e.sk.includes(`${cur.sk}#`))
+      .map((e) => e.category);
 
-  // console.log(bookmarks);
+    const bookmarkCategories = categories.filter((c) => {
+      return !!bookmarkCategorySks.find((k) => k === c.sk);
+    });
 
-  return Ok({});
+    return [
+      ...acc,
+      {
+        ...cur,
+        categories: bookmarkCategories,
+      },
+    ];
+  }, []);
+
+  console.log(response);
+
+  return Ok(response);
 };
 
 export default bookmarkList;
