@@ -1,10 +1,8 @@
 import dynamoose from 'dynamoose';
 import { Document } from 'dynamoose/dist/Document';
-import { entity } from './entity';
+import { EntityClass, entity } from './entity';
 
-export class CategoryClass extends Document {
-  pk: string;
-  sk: string;
+export class CategoryClass extends EntityClass {
   name: string;
   description?: string;
 }

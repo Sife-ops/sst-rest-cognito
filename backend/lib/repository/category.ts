@@ -1,61 +1,51 @@
+import * as t from './type';
 import crypto from 'crypto';
-import model from '../model';
-import { CategoryClass } from '../model/category';
+import { EntityClass } from '../model/entity';
+import { ModelType } from 'dynamoose/dist/General';
 
-type Require<T, K extends keyof T> = Partial<T> & Pick<T, K>;
-
-type CreateUpdateFn<T, K extends keyof T> = (
-  entity: Require<T, K>
-) => Promise<T>;
-type GetFn<T> = (id: string) => Promise<T>;
-type ListFn<T> = () => Promise<Array<T>>;
-type DeleteFn = (id: string) => Promise<void>;
-
-abstract class Repo {
+export default class<T extends EntityClass, K extends keyof T> {
   accountId: string;
+  model: ModelType<T>;
+  modelName: string;
 
-  constructor(accountId: string) {
+  constructor(accountId: string, model: ModelType<T>) {
     this.accountId = accountId;
-  }
-}
-
-class CategoryRepo extends Repo {
-  constructor(accountId: string) {
-    super(accountId);
+    this.model = model;
+    this.modelName = this.model.constructor.name;
   }
 
-  create: CreateUpdateFn<CategoryClass, 'name'> = async (category) => {
-    return await model.category.create({
-      ...category,
-      pk: `user:${this.accountId}`,
-      sk: `category:${crypto.randomUUID()}`,
+  create: t.CreateUpdateFn<T, K> = async (entity) => {
+    return await this.model.create({
+      ...entity,
+      pk: `User:${this.accountId}`,
+      sk: `${this.modelName}:${crypto.randomUUID()}`,
     });
   };
 
-  get: GetFn<CategoryClass> = async (categoryId) => {
-    return await model.category.get({
-      pk: `user:${this.accountId}`,
-      sk: `category:${categoryId}`,
+  get: t.GetFn<T> = async (id) => {
+    return await this.model.get({
+      pk: `User:${this.accountId}`,
+      sk: `${this.modelName}:${id}`,
     });
   };
 
-  list: ListFn<CategoryClass> = async () => {
-    return await model.category
+  list: t.ListFn<T> = async () => {
+    return await this.model
       .query('pk')
-      .eq(`user:${this.accountId}`)
+      .eq(`User:${this.accountId}`)
       .where('sk')
-      .beginsWith('category')
+      .beginsWith(this.modelName)
       .exec();
   };
 
-  update: CreateUpdateFn<CategoryClass, 'pk' | 'sk'> = async (category) => {
-    return await model.category.update(category);
+  update: t.CreateUpdateFn<T, 'pk' | 'sk'> = async (category) => {
+    return await this.model.update(category);
   };
 
-  delete: DeleteFn = async (categoryId) => {
-    return await model.category.delete({
-      pk: `user:${this.accountId}`,
-      sk: `category:${categoryId}`,
+  delete: t.DeleteFn = async (id) => {
+    return await this.model.delete({
+      pk: `User:${this.accountId}`,
+      sk: `${this.modelName}:${id}`,
     });
   };
 }
