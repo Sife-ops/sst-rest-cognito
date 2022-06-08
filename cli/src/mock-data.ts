@@ -1,12 +1,12 @@
-import AWS from "aws-sdk";
-import crypto from "crypto";
-import { faker } from "@faker-js/faker";
+import AWS from 'aws-sdk';
+import crypto from 'crypto';
+import { faker } from '@faker-js/faker';
 
-const dynamodb = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" });
+const dynamodb = new AWS.DynamoDB.DocumentClient({ region: 'us-east-1' });
 
 interface Category {
   sk: string;
-  category: string;
+  name: string;
 }
 
 const pickCategories = (c: Category[]): Category[] => {
@@ -19,7 +19,7 @@ const pickCategories = (c: Category[]): Category[] => {
     const index = faker.datatype.number(length - 1);
     const pick = c[index];
     // if (picked.includes(pick)) {
-    if (picked.find((e) => e.category === pick.category)) {
+    if (picked.find((e) => e.name === pick.name)) {
       continue;
     } else {
       picked.push(pick);
@@ -38,8 +38,8 @@ const mockUser = (pk: string) => {
   let categories: Category[] = [];
   for (let i = 0; i < categoriesMax; i++) {
     categories.push({
-      sk: `category:${crypto.randomUUID()}`,
-      category: faker.word.noun(),
+      sk: `Category:${crypto.randomUUID()}`,
+      name: faker.word.noun(),
     });
   }
 
@@ -50,11 +50,11 @@ const mockUser = (pk: string) => {
         Item: {
           pk,
           sk: e.sk,
-          category: e.category,
+          name: e.name,
           description: faker.lorem.sentence(),
         },
         // todo: read table name from environment
-        TableName: "dev-sst-rest-cognito-table",
+        TableName: 'dev-sst-rest-cognito-table',
       })
       .promise()
       .then((data) => console.log(data))
@@ -63,7 +63,8 @@ const mockUser = (pk: string) => {
 
   const bookmarksMax = faker.datatype.number({ min: 1, max: 20 });
   for (let i = 0; i < bookmarksMax; i++) {
-    const sk = `bookmark:${crypto.randomUUID()}`;
+    const favorite = faker.datatype.number({ min: 1, max: 100 }) < 33;
+    const sk = `Bookmark:${crypto.randomUUID()}`;
     dynamodb
       .put({
         Item: {
@@ -72,9 +73,9 @@ const mockUser = (pk: string) => {
           name: faker.word.noun(),
           description: faker.lorem.sentence(),
           url: faker.internet.url(),
-          favorite: false,
+          favorite,
         },
-        TableName: "dev-sst-rest-cognito-table",
+        TableName: 'dev-sst-rest-cognito-table',
       })
       .promise()
       .then((data) => console.log(data))
@@ -85,10 +86,10 @@ const mockUser = (pk: string) => {
         .put({
           Item: {
             pk,
-            sk: `${e.sk}#${sk}`,
-            bookmark: sk,
+            sk: `${sk}#${e.sk}`,
+            category: e.sk,
           },
-          TableName: "dev-sst-rest-cognito-table",
+          TableName: 'dev-sst-rest-cognito-table',
         })
         .promise()
         .then((data) => console.log(data))
@@ -98,7 +99,7 @@ const mockUser = (pk: string) => {
 };
 
 const main = () => {
-  const pks = ["user:01"];
+  const pks = ['User:054661142656'];
   pks.map((e) => {
     mockUser(e);
   });

@@ -27,9 +27,7 @@ const lambdaHandler: Handler<
   const repository = new Repository(accountId);
 
   // todo: delete
-  const res = await repository.categoryRepo.create({
-    name: 'asdf333334',
-  });
+  const res = await repository.categoryRepo.list();
   console.log(res);
 
   try {
