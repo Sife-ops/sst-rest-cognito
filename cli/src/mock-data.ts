@@ -86,8 +86,10 @@ const mockUser = (pk: string) => {
         .put({
           Item: {
             pk,
-            sk: `${sk}#${e.sk}`,
-            category: e.sk,
+            // sk: `${sk}#${e.sk}`,
+            // category: e.sk,
+            sk: `${e.sk}#${sk}`,
+            bookmark: sk,
           },
           TableName: 'dev-sst-rest-cognito-table',
         })

@@ -8,7 +8,6 @@ export class BookmarkClass extends EntityClass {
   description?: string;
   url: string;
   favorite: boolean;
-  category: string;
 }
 
 const bookmarkSchema = new dynamoose.Schema({
@@ -31,9 +30,6 @@ const bookmarkSchema = new dynamoose.Schema({
   },
   favorite: {
     type: Boolean,
-  },
-  category: {
-    type: String,
   },
 });
 

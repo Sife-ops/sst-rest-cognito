@@ -22,10 +22,10 @@ export class Repo<T extends EntityClass, K extends keyof T> {
     });
   };
 
-  get: t.GetFn<T> = async (id) => {
+  get: t.GetFn<T> = async (sk) => {
     return await this.model.get({
       pk: `User:${this.accountId}`,
-      sk: `${this.modelName}:${id}`,
+      sk,
     });
   };
 
@@ -42,10 +42,10 @@ export class Repo<T extends EntityClass, K extends keyof T> {
     return await this.model.update(category);
   };
 
-  delete: t.DeleteFn = async (id) => {
+  delete: t.DeleteFn = async (sk) => {
     return await this.model.delete({
       pk: `User:${this.accountId}`,
-      sk: `${this.modelName}:${id}`,
+      sk,
     });
   };
 }
