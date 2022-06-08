@@ -1,12 +1,10 @@
-import crypto from 'crypto';
-import model from '../model';
 import { Ok, Err } from 'ts-results';
 import { OperationFn } from './operation';
 
 const categoryCreate: OperationFn<
   { name: string; description: string },
   'invalid arguments'
-> = async ({ accountId, variables }) => {
+> = async ({ repository, variables }) => {
   if (!variables || !variables.name) return Err('invalid arguments');
 
   const { description, name } = variables;

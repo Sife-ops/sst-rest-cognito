@@ -26,12 +26,8 @@ const lambdaHandler: Handler<
 
   const repository = new Repository(accountId);
 
-  // todo: delete
-  const res = await repository.categoryRepo.list();
-  console.log(res);
-
   try {
-    const result = await operations[operation]({ accountId, variables });
+    const result = await operations[operation]({ repository, variables });
 
     if (result.ok) {
       return formatResponse(200, {

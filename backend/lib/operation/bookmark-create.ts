@@ -1,11 +1,10 @@
-import crypto from 'crypto';
 import { Ok, Err } from 'ts-results';
 import { OperationFn } from './operation';
 
 const bookmarkCreate: OperationFn<
   { name: string; description: string; url: string; favorite: boolean },
   'invalid arguments'
-> = async ({ accountId, variables }) => {
+> = async ({ repository, variables }) => {
   if (!variables.name || !variables.url) return Err('invalid arguments');
 
   const { description, name, url, favorite = false } = variables!;
