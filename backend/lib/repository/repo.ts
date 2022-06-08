@@ -9,7 +9,7 @@ export class Repo<T extends EntityClass, K extends keyof T> {
   private model: ModelType<T>;
 
   constructor(modelName: string, accountId: string, model: ModelType<T>) {
-    this.modelName = this.modelName;
+    this.modelName = modelName;
     this.accountId = accountId;
     this.model = model;
   }
