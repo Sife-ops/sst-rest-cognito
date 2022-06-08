@@ -1,7 +1,7 @@
 import crypto from 'crypto';
+import model from '../model';
 import { Ok, Err } from 'ts-results';
 import { OperationFn } from './operation';
-import { db } from '../service';
 
 const categoryCreate: OperationFn<
   { name: string; description: string },
@@ -11,23 +11,23 @@ const categoryCreate: OperationFn<
 
   const { description, name } = variables;
 
-  const res = await db
-    .put({
-      TableName: process.env.tableName!,
-      Item: {
-        pk: `user:${accountId}`,
-        sk: `category:${crypto.randomUUID()}`,
-        name,
-        description,
-      },
-    })
-    .promise()
-    .then((e) => {
-      // console.log(e);
-      return e;
-    });
+  // const res = await db
+  //   .put({
+  //     TableName: process.env.tableName!,
+  //     Item: {
+  //       pk: `user:${accountId}`,
+  //       sk: `category:${crypto.randomUUID()}`,
+  //       name,
+  //       description,
+  //     },
+  //   })
+  //   .promise()
+  //   .then((e) => {
+  //     // console.log(e);
+  //     return e;
+  //   });
 
-  return Ok(res);
+  return Ok({});
 };
 
 export default categoryCreate;

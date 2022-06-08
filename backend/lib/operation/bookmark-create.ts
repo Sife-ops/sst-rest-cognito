@@ -1,7 +1,6 @@
 import crypto from 'crypto';
 import { Ok, Err } from 'ts-results';
 import { OperationFn } from './operation';
-import { db } from '../service';
 
 const bookmarkCreate: OperationFn<
   { name: string; description: string; url: string; favorite: boolean },
@@ -11,25 +10,25 @@ const bookmarkCreate: OperationFn<
 
   const { description, name, url, favorite = false } = variables!;
 
-  const res = await db
-    .put({
-      TableName: process.env.tableName!,
-      Item: {
-        pk: `user:${accountId}`,
-        sk: `bookmark:${crypto.randomUUID()}`,
-        name,
-        description,
-        url,
-        favorite,
-      },
-    })
-    .promise()
-    .then((e) => {
-      console.log(e);
-      return e;
-    });
+  // const res = await db
+  //   .put({
+  //     TableName: process.env.tableName!,
+  //     Item: {
+  //       pk: `user:${accountId}`,
+  //       sk: `bookmark:${crypto.randomUUID()}`,
+  //       name,
+  //       description,
+  //       url,
+  //       favorite,
+  //     },
+  //   })
+  //   .promise()
+  //   .then((e) => {
+  //     console.log(e);
+  //     return e;
+  //   });
 
-  return Ok(res);
+  return Ok({});
 };
 
 export default bookmarkCreate;

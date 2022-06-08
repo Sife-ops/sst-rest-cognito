@@ -5,9 +5,8 @@ import { entity } from './entity';
 export class CategoryClass extends Document {
   pk: string;
   sk: string;
-  name?: string;
+  name: string;
   description?: string;
-  bookmark?: string;
 }
 
 const categorySchema = new dynamoose.Schema({
@@ -21,12 +20,8 @@ const categorySchema = new dynamoose.Schema({
   },
   name: {
     type: String,
-    required: true,
   },
   description: {
-    type: String,
-  },
-  bookmark: {
     type: String,
   },
 });
