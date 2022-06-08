@@ -5,8 +5,6 @@ import operations from '../lib/operation';
 import type { APIGatewayProxyEvent, Handler } from 'aws-lambda';
 import { formatResponse } from '../lib/response';
 
-import model from '../lib/model';
-
 const lambdaHandler: Handler<
   Omit<APIGatewayProxyEvent, 'body'> & {
     body: {
@@ -24,15 +22,6 @@ const lambdaHandler: Handler<
     body: { operation },
     body: { variables },
   } = event;
-
-  // const a = await model.category.query('pk').eq('User:054661142656').exec();
-  const a = await model.category
-    .query('bookmark')
-    .eq('Bookmark:9961c24d-4075-46ea-8d1b-fafd2181bbcd')
-    .using('categoryBookmarkIndex')
-    .exec();
-  // Bookmark:9961c24d-4075-46ea-8d1b-fafd2181bbcd
-  console.log(a);
 
   const repository = new Repository(accountId);
 
