@@ -16,6 +16,20 @@ export const Dev: React.FC = () => {
 
   return (
     <div className="App">
+      <h1>category list</h1>
+      <button
+        onClick={async () => {
+          const res = await API.post('temp', '/private', {
+            body: {
+              operation: 'categoryList',
+            },
+          });
+          console.log(res);
+        }}
+      >
+        submit
+      </button>
+
       <h1>category create</h1>
       <form
         onSubmit={async (e) => {
