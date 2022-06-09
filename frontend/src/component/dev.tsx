@@ -16,15 +16,16 @@ export const Dev: React.FC = () => {
 
   return (
     <div className="App">
-      <h1>bookmark get</h1>
+      <h1>category create</h1>
       <form
         onSubmit={async (e) => {
           e.preventDefault();
           const res = await API.post('temp', '/private', {
             body: {
-              operation: 'bookmarkGet',
+              operation: 'categoryCreate',
               variables: {
-                sk,
+                name,
+                description,
               },
             },
           });
@@ -32,27 +33,19 @@ export const Dev: React.FC = () => {
         }}
       >
         <input
-          placeholder="sk"
-          onChange={(e) => setSk(e.target.value)}
-          value={sk}
+          placeholder="name"
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+        />
+        <br />
+        <input
+          placeholder="description"
+          onChange={(e) => setDescription(e.target.value)}
+          value={description}
         />
         <br />
         <button type="submit">submit</button>
       </form>
-
-      <h1>bookmark list</h1>
-      <button
-        onClick={async () => {
-          const res = await API.post('temp', '/private', {
-            body: {
-              operation: 'bookmarkList',
-            },
-          });
-          console.log(res);
-        }}
-      >
-        submit
-      </button>
 
       <h1>bookmark create</h1>
       <form
@@ -101,16 +94,15 @@ export const Dev: React.FC = () => {
         <button type="submit">submit</button>
       </form>
 
-      <h1>create category</h1>
+      <h1>bookmark get</h1>
       <form
         onSubmit={async (e) => {
           e.preventDefault();
           const res = await API.post('temp', '/private', {
             body: {
-              operation: 'categoryCreate',
+              operation: 'bookmarkGet',
               variables: {
-                name,
-                description,
+                sk,
               },
             },
           });
@@ -118,19 +110,27 @@ export const Dev: React.FC = () => {
         }}
       >
         <input
-          placeholder="name"
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-        />
-        <br />
-        <input
-          placeholder="description"
-          onChange={(e) => setDescription(e.target.value)}
-          value={description}
+          placeholder="sk"
+          onChange={(e) => setSk(e.target.value)}
+          value={sk}
         />
         <br />
         <button type="submit">submit</button>
       </form>
+
+      <h1>bookmark list</h1>
+      <button
+        onClick={async () => {
+          const res = await API.post('temp', '/private', {
+            body: {
+              operation: 'bookmarkList',
+            },
+          });
+          console.log(res);
+        }}
+      >
+        submit
+      </button>
 
       <h1>item list</h1>
       <button

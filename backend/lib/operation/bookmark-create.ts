@@ -1,33 +1,26 @@
 import { Ok, Err } from 'ts-results';
 import { OperationFn } from './lib/operation';
 
+// todo: interfaces for entities
 const bookmarkCreate: OperationFn<
-  { name: string; description: string; url: string; favorite: boolean },
+  { name: string; description?: string; url: string; favorite: boolean },
   'invalid arguments'
-> = async ({ repository, variables }) => {
-  if (!variables.name || !variables.url) return Err('invalid arguments');
+> = async ({
+  repository,
+  variables: { description = '', name, url, favorite = false },
+}) => {
+  if (!name || !url) return Err('invalid arguments');
 
-  const { description, name, url, favorite = false } = variables!;
+  const response = await repository.bookmarkRepo.create({
+    name,
+    url,
+    description,
+    favorite,
+  });
 
-  // const res = await db
-  //   .put({
-  //     TableName: process.env.tableName!,
-  //     Item: {
-  //       pk: `user:${accountId}`,
-  //       sk: `bookmark:${crypto.randomUUID()}`,
-  //       name,
-  //       description,
-  //       url,
-  //       favorite,
-  //     },
-  //   })
-  //   .promise()
-  //   .then((e) => {
-  //     console.log(e);
-  //     return e;
-  //   });
+  console.log(response);
 
-  return Ok({});
+  return Ok(response);
 };
 
 export default bookmarkCreate;

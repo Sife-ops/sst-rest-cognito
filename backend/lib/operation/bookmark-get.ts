@@ -5,11 +5,11 @@ import { OperationFn } from './lib/operation';
 const bookmarkCreate: OperationFn<
   { sk: string },
   'invalid arguments'
-> = async ({ repository, variables }) => {
-  if (!variables.sk) return Err('invalid arguments');
+> = async ({ repository, variables: { sk } }) => {
+  if (!sk) return Err('invalid arguments');
 
   // todo: add 'bookmark' property to bookmark entity
-  const bookmark = await repository.bookmarkRepo.get(variables.sk);
+  const bookmark = await repository.bookmarkRepo.get(sk);
   const categories = await repository.categoryRepo.list();
 
   return Ok({
