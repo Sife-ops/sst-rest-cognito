@@ -1,7 +1,6 @@
 import { Ok, Err } from 'ts-results';
 import { OperationFn } from './lib/operation';
 
-// todo: move errors
 const bookmarkDelete: OperationFn<{ sk: string }> = async ({
   repository,
   variables: { sk },
