@@ -9,14 +9,16 @@ const bookmarkList: OperationFn = async ({ repository }) => {
 
   const response = bookmarks.map((bookmark) => {
     const bookmarkCategories = categories.reduce(
-      (acc: CategoryClass[], cur) => {
+      (acc: CategoryClass[], cur, _, arr) => {
         if (cur.bookmark === bookmark.sk) {
-          return [...acc, cur];
+          const found = arr.find((e) => e.sk === cur.sk.split('#')[0]);
+          if (found) return [...acc, found];
         }
         return acc;
       },
       []
     );
+
     return {
       ...bookmark,
       categories: bookmarkCategories,
