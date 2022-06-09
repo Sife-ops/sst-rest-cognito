@@ -1,4 +1,4 @@
-import Repository from '../../lib/repository';
+import Repository from '../../repository';
 import { Result } from 'ts-results';
 
 export type OperationFn<A = {}, E = undefined> = (args: {

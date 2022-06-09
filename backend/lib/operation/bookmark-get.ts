@@ -1,6 +1,6 @@
-import { bookmarkCategories } from './function';
+import { bookmarkCategories } from './lib/function';
 import { Ok, Err } from 'ts-results';
-import { OperationFn } from './operation';
+import { OperationFn } from './lib/operation';
 
 const bookmarkCreate: OperationFn<
   { sk: string },

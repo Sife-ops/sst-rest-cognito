@@ -1,6 +1,6 @@
 import * as t from './type';
 import crypto from 'crypto';
-import { EntityClass } from '../model/entity';
+import { EntityClass } from '../model/lib/entity';
 import { ModelType } from 'dynamoose/dist/General';
 
 export class Repo<T extends EntityClass, K extends keyof T> {

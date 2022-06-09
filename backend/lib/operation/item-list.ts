@@ -1,5 +1,5 @@
 import { Ok } from 'ts-results';
-import { OperationFn } from './operation';
+import { OperationFn } from './lib/operation';
 
 const itemList: OperationFn = async ({ repository }) => {
   const bookmarks = await repository.bookmarkRepo.list();

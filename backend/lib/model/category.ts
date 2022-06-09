@@ -1,5 +1,5 @@
 import dynamoose from 'dynamoose';
-import { EntityClass, entity } from './entity';
+import { EntityClass, entity } from './lib/entity';
 
 export class CategoryClass extends EntityClass {
   name: string;

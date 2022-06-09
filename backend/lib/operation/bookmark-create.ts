@@ -1,5 +1,5 @@
 import { Ok, Err } from 'ts-results';
-import { OperationFn } from './operation';
+import { OperationFn } from './lib/operation';
 
 const bookmarkCreate: OperationFn<
   { name: string; description: string; url: string; favorite: boolean },
