@@ -1,8 +1,21 @@
-  // // const a = await model.category.query('pk').eq('User:054661142656').exec();
-  // const a = await model.category
-  //   .query('bookmark')
-  //   .eq('Bookmark:9961c24d-4075-46ea-8d1b-fafd2181bbcd')
-  //   .using('categoryBookmarkIndex')
-  //   .exec();
-  // // Bookmark:9961c24d-4075-46ea-8d1b-fafd2181bbcd
-  // console.log(a);
+import { bookmarkCategories } from './function';
+import { Ok, Err } from 'ts-results';
+import { OperationFn } from './operation';
+
+const bookmarkCreate: OperationFn<
+  { sk: string },
+  'invalid arguments'
+> = async ({ repository, variables }) => {
+  if (!variables.sk) return Err('invalid arguments');
+
+  // todo: add 'bookmark' property to bookmark entity
+  const bookmark = await repository.bookmarkRepo.get(variables.sk);
+  const categories = await repository.categoryRepo.list();
+
+  return Ok({
+    ...bookmark,
+    categories: bookmarkCategories(categories, bookmark.sk),
+  });
+};
+
+export default bookmarkCreate;

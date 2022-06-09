@@ -3,6 +3,7 @@ import { API, Auth } from 'aws-amplify';
 
 export const Dev: React.FC = () => {
   const [name, setName] = React.useState('');
+  const [sk, setSk] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [url, setUrl] = React.useState('');
   const [favorite, setFavorite] = React.useState(false);
@@ -15,6 +16,30 @@ export const Dev: React.FC = () => {
 
   return (
     <div className="App">
+      <h1>bookmark get</h1>
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          const res = await API.post('temp', '/private', {
+            body: {
+              operation: 'bookmarkGet',
+              variables: {
+                sk,
+              },
+            },
+          });
+          console.log(res);
+        }}
+      >
+        <input
+          placeholder="sk"
+          onChange={(e) => setSk(e.target.value)}
+          value={sk}
+        />
+        <br />
+        <button type="submit">submit</button>
+      </form>
+
       <h1>bookmark list</h1>
       <button
         onClick={async () => {

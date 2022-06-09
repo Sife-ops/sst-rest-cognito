@@ -9,10 +9,11 @@ const lambdaHandler: Handler<
   Omit<APIGatewayProxyEvent, 'body'> & {
     body: {
       operation:
+        | 'bookmarkCreate'
+        | 'bookmarkGet'
         | 'bookmarkList'
-        | 'itemList'
         | 'categoryCreate'
-        | 'bookmarkCreate';
+        | 'itemList';
       variables: any;
     };
   }

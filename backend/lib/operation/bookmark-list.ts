@@ -1,4 +1,4 @@
-import { CategoryClass } from '../model/category';
+import { bookmarkCategories } from './function';
 import { Ok } from 'ts-results';
 import { OperationFn } from './operation';
 
@@ -8,20 +8,9 @@ const bookmarkList: OperationFn = async ({ repository }) => {
   const categories = await repository.categoryRepo.list();
 
   const response = bookmarks.map((bookmark) => {
-    const bookmarkCategories = categories.reduce(
-      (acc: CategoryClass[], cur, _, arr) => {
-        if (cur.bookmark === bookmark.sk) {
-          const found = arr.find((e) => e.sk === cur.sk.split('#')[0]);
-          if (found) return [...acc, found];
-        }
-        return acc;
-      },
-      []
-    );
-
     return {
       ...bookmark,
-      categories: bookmarkCategories,
+      categories: bookmarkCategories(categories, bookmark.sk),
     };
   });
 
