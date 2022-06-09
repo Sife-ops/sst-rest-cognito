@@ -1,7 +1,13 @@
 import dynamoose from 'dynamoose';
 import { EntityClass, entity } from './lib/entity';
 
-export class CategoryClass extends EntityClass {
+export interface CategoryIface {
+  name: string;
+  description?: string;
+  bookmark?: string;
+}
+
+export class CategoryClass extends EntityClass implements CategoryIface {
   name: string;
   description?: string;
   bookmark?: string;

@@ -1,13 +1,19 @@
 import dynamoose from 'dynamoose';
 import { EntityClass, entity } from './lib/entity';
 
-export class BookmarkClass extends EntityClass {
-  pk: string;
-  sk: string;
+export interface BookmarkIface {
   name: string;
   description?: string;
   url: string;
-  favorite: boolean;
+  favorite?: boolean;
+}
+
+// todo: remove export
+export class BookmarkClass extends EntityClass implements BookmarkIface {
+  name: string;
+  description?: string;
+  url: string;
+  favorite?: boolean;
 }
 
 const bookmarkSchema = new dynamoose.Schema({

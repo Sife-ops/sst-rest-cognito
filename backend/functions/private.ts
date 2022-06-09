@@ -12,13 +12,10 @@ const lambdaHandler: Handler<
       variables: any;
     };
   }
-> = async (event) => {
-  const {
-    requestContext: { accountId },
-    body: { operation },
-    body: { variables },
-  } = event;
-
+> = async ({
+  requestContext: { accountId },
+  body: { operation, variables },
+}) => {
   const repository = new Repository(accountId);
 
   try {

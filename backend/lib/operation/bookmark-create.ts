@@ -1,16 +1,15 @@
 import { Ok, Err } from 'ts-results';
 import { OperationFn } from './lib/operation';
+import { BookmarkIface } from '../model/bookmark';
 
-// todo: interfaces for entities
 // todo: category relationship
-const bookmarkCreate: OperationFn<{
-  name: string;
-  description?: string;
-  url: string;
-  favorite: boolean;
-}> = async ({
+const bookmarkCreate: OperationFn<
+  BookmarkIface & {
+    categories?: string[];
+  }
+> = async ({
   repository,
-  variables: { description = '', name, url, favorite = false },
+  variables: { description = '', name, url, favorite = false, categories = [] },
 }) => {
   if (!name || !url) return Err('invalid arguments');
 
