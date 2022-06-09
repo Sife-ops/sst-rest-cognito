@@ -34,10 +34,10 @@ import { Ok, Err } from 'ts-results';
 import { OperationFn } from './lib/operation';
 
 // todo: interfaces for entities
-const bookmarkCreate: OperationFn<
-  { name: string; description?: string },
-  'invalid arguments'
-> = async ({ repository, variables: { description = '', name } }) => {
+const bookmarkCreate: OperationFn<{
+  name: string;
+  description?: string;
+}> = async ({ repository, variables: { description = '', name } }) => {
   if (!name) return Err('invalid arguments');
 
   const response = await repository.categoryRepo.create({

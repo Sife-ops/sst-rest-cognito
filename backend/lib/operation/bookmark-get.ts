@@ -2,10 +2,10 @@ import { bookmarkCategories } from './lib/function';
 import { Ok, Err } from 'ts-results';
 import { OperationFn } from './lib/operation';
 
-const bookmarkCreate: OperationFn<
-  { sk: string },
-  'invalid arguments'
-> = async ({ repository, variables: { sk } }) => {
+const bookmarkCreate: OperationFn<{ sk: string }> = async ({
+  repository,
+  variables: { sk },
+}) => {
   if (!sk) return Err('invalid arguments');
 
   // todo: add 'bookmark' property to bookmark entity

@@ -13,6 +13,7 @@ const lambdaHandler: Handler<
         | 'bookmarkGet'
         | 'bookmarkList'
         | 'categoryCreate'
+        | 'categoryGet'
         | 'categoryList'
         | 'itemList';
       variables: any;

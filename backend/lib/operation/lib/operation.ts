@@ -1,7 +1,9 @@
 import Repository from '../../repository';
 import { Result } from 'ts-results';
 
-export type OperationFn<A = {}, E = undefined> = (args: {
+type Errors = 'invalid arguments';
+
+export type OperationFn<A = {}> = (args: {
   repository: Repository;
   variables: A;
-}) => Promise<Result<unknown, E>>;
+}) => Promise<Result<unknown, Errors>>;

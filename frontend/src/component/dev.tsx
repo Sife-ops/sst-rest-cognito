@@ -16,6 +16,30 @@ export const Dev: React.FC = () => {
 
   return (
     <div className="App">
+      <h1>category get</h1>
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          const res = await API.post('temp', '/private', {
+            body: {
+              operation: 'categoryGet',
+              variables: {
+                sk,
+              },
+            },
+          });
+          console.log(res);
+        }}
+      >
+        <input
+          placeholder="sk"
+          onChange={(e) => setSk(e.target.value)}
+          value={sk}
+        />
+        <br />
+        <button type="submit">submit</button>
+      </form>
+
       <h1>category list</h1>
       <button
         onClick={async () => {

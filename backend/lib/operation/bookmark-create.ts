@@ -2,10 +2,12 @@ import { Ok, Err } from 'ts-results';
 import { OperationFn } from './lib/operation';
 
 // todo: interfaces for entities
-const bookmarkCreate: OperationFn<
-  { name: string; description?: string; url: string; favorite: boolean },
-  'invalid arguments'
-> = async ({
+const bookmarkCreate: OperationFn<{
+  name: string;
+  description?: string;
+  url: string;
+  favorite: boolean;
+}> = async ({
   repository,
   variables: { description = '', name, url, favorite = false },
 }) => {
