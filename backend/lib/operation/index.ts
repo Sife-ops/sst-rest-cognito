@@ -19,3 +19,13 @@ export default {
   categoryList,
   itemList,
 };
+
+export type OperationName =
+  | 'bookmarkCreate'
+  | 'bookmarkDelete'
+  | 'bookmarkGet'
+  | 'bookmarkList'
+  | 'categoryCreate'
+  | 'categoryGet'
+  | 'categoryList'
+  | 'itemList';

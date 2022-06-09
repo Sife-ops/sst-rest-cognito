@@ -1,22 +1,14 @@
 import Repository from '../lib/repository';
 import jsonBodyParser from '@middy/http-json-body-parser';
 import middy from '@middy/core';
-import operations from '../lib/operation';
+import operations, { OperationName } from '../lib/operation';
 import type { APIGatewayProxyEvent, Handler } from 'aws-lambda';
 import { formatResponse } from '../lib/response';
 
 const lambdaHandler: Handler<
   Omit<APIGatewayProxyEvent, 'body'> & {
     body: {
-      operation:
-        | 'bookmarkCreate'
-        | 'bookmarkDelete'
-        | 'bookmarkGet'
-        | 'bookmarkList'
-        | 'categoryCreate'
-        | 'categoryGet'
-        | 'categoryList'
-        | 'itemList';
+      operation: OperationName;
       variables: any;
     };
   }

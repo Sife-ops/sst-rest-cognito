@@ -2,6 +2,7 @@ import { Ok, Err } from 'ts-results';
 import { OperationFn } from './lib/operation';
 
 // todo: interfaces for entities
+// todo: category relationship
 const bookmarkCreate: OperationFn<{
   name: string;
   description?: string;

@@ -1,7 +1,6 @@
 import { Ok, Err } from 'ts-results';
 import { OperationFn } from './lib/operation';
 
-// todo: move errors
 const categoryGet: OperationFn<{ sk: string }> = async ({
   repository,
   variables: { sk },
