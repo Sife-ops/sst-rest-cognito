@@ -2,17 +2,17 @@ import { Ok, Err } from 'ts-results';
 import { OperationFn } from './lib/operation';
 
 // todo: move errors
-const categoryGet: OperationFn<{ sk: string }> = async ({
+const bookmarkDelete: OperationFn<{ sk: string }> = async ({
   repository,
   variables: { sk },
 }) => {
   if (!sk) return Err('invalid arguments');
 
-  const response = await repository.categoryRepo.get(sk);
+  await repository.bookmarkRepo.delete(sk);
 
-  console.log(response);
+  console.log(`deleted ${sk}`);
 
-  return Ok(response);
+  return Ok(undefined);
 };
 
-export default categoryGet;
+export default bookmarkDelete;

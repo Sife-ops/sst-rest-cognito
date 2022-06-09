@@ -3,7 +3,7 @@ import { Result } from 'ts-results';
 
 type Errors = 'invalid arguments';
 
-export type OperationFn<A = {}> = (args: {
+export type OperationFn<V = {}> = (args: {
   repository: Repository;
-  variables: A;
+  variables: V;
 }) => Promise<Result<unknown, Errors>>;

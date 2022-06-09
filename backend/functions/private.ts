@@ -10,6 +10,7 @@ const lambdaHandler: Handler<
     body: {
       operation:
         | 'bookmarkCreate'
+        | 'bookmarkDelete'
         | 'bookmarkGet'
         | 'bookmarkList'
         | 'categoryCreate'
