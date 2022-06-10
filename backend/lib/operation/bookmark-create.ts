@@ -1,8 +1,8 @@
 import { Ok } from 'ts-results';
 import { OperationFn } from './lib/operation';
 
-import model from '../model';
-import { CategoryClass } from '../model/category';
+import model from '../../../model';
+import { CategoryClass } from '../../../model/category';
 
 const bookmarkCreate: OperationFn<{
   categories?: CategoryClass[];

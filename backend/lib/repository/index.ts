@@ -1,6 +1,6 @@
-import model from '../model';
-import { BookmarkClass } from '../model/bookmark';
-import { CategoryClass } from '../model/category';
+import model from '../../../model';
+import { BookmarkClass } from '../../../model/bookmark';
+import { CategoryClass } from '../../../model/category';
 import { Repo } from './repo';
 
 export default class {

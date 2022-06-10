@@ -1,4 +1,4 @@
-import { CategoryClass } from '../../model/category';
+import { CategoryClass } from '../../../../model/category';
 
 export const bookmarkCategories = (a: CategoryClass[], b: string) => {
   return a.reduce((acc: CategoryClass[], cur, _, arr) => {

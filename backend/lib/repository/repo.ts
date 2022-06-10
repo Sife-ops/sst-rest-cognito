@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { EntityClass } from '../model/lib/entity';
+import { EntityClass } from '../../../model/lib/entity';
 import { ModelType } from 'dynamoose/dist/General';
 
 type CreateUpdateFn<T> = (entity: Partial<T>) => Promise<T>;

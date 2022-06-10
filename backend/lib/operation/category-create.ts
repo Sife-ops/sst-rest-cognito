@@ -1,7 +1,7 @@
 import { Ok } from 'ts-results';
 import { OperationFn } from './lib/operation';
 import { CategoryCreateInput } from '../../../query/test';
-import { CategoryClass } from '../model/category';
+import { CategoryClass } from '../../../model/category';
 
 const categoryCreate: OperationFn<CategoryCreateInput, CategoryClass> = async ({
   repository,

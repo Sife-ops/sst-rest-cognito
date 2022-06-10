@@ -1,4 +1,4 @@
-import model from '../model';
+import model from '../../../model';
 import { Ok, Err } from 'ts-results';
 import { OperationFn } from './lib/operation';
 
