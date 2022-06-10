@@ -1,9 +1,8 @@
+import { CategoryClass, CategoryIface } from '../../../model/category';
 import { Ok } from 'ts-results';
 import { OperationFn } from './lib/operation';
-import { CategoryCreateInput } from '../../../query/test';
-import { CategoryClass } from '../../../model/category';
 
-const categoryCreate: OperationFn<CategoryCreateInput, CategoryClass> = async ({
+const categoryCreate: OperationFn<CategoryIface, CategoryClass> = async ({
   repository,
   variables: { description = '', name },
 }) => {

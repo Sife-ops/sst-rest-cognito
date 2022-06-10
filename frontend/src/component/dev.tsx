@@ -1,6 +1,26 @@
 import React from 'react';
 import { API, Auth } from 'aws-amplify';
-// import { test } from '../../../query/test';
+import { CategoryClass, CategoryIface } from '../../../model/category';
+
+const queryFactory = function <V, D>(operation: string) {
+  return (
+    variables: V
+  ): Promise<{
+    success: boolean;
+    data: D;
+  }> => {
+    return API.post('temp', '/private', {
+      body: {
+        operation,
+        variables,
+      },
+    });
+  };
+};
+
+const categoryCreateQuery = queryFactory<CategoryIface, CategoryClass>(
+  'categoryCreate'
+);
 
 export const Dev: React.FC = () => {
   const [categories, setCategories] = React.useState<any[]>([]);
@@ -18,6 +38,32 @@ export const Dev: React.FC = () => {
 
   return (
     <div className="App">
+      <h1>category create</h1>
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          const res = await categoryCreateQuery({
+            name,
+            description,
+          });
+          console.log(res);
+        }}
+      >
+        <input
+          placeholder="name"
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+        />
+        <br />
+        <input
+          placeholder="description"
+          onChange={(e) => setDescription(e.target.value)}
+          value={description}
+        />
+        <br />
+        <button type="submit">submit</button>
+      </form>
+
       <h1>category update</h1>
       <form
         onSubmit={async (e) => {
@@ -301,37 +347,6 @@ export const Dev: React.FC = () => {
       >
         submit
       </button>
-
-      <h1>category create</h1>
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          const res = await API.post('temp', '/private', {
-            body: {
-              operation: 'categoryCreate',
-              variables: {
-                name,
-                description,
-              },
-            },
-          });
-          console.log(res);
-        }}
-      >
-        <input
-          placeholder="name"
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-        />
-        <br />
-        <input
-          placeholder="description"
-          onChange={(e) => setDescription(e.target.value)}
-          value={description}
-        />
-        <br />
-        <button type="submit">submit</button>
-      </form>
 
       <h1>bookmark get</h1>
       <form
