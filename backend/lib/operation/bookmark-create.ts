@@ -1,26 +1,41 @@
-import { Ok, Err } from 'ts-results';
+import { Ok } from 'ts-results';
 import { OperationFn } from './lib/operation';
-import { BookmarkIface } from '../model/bookmark';
 
-// todo: category relationship
-const bookmarkCreate: OperationFn<
-  BookmarkIface & {
-    categories?: string[];
-  }
-> = async ({
+import model from '../model';
+import { CategoryClass } from '../model/category';
+
+const bookmarkCreate: OperationFn<{
+  categories: CategoryClass[];
+  description?: string;
+  favorite?: boolean;
+  name: string;
+  url: string;
+}> = async ({
   repository,
-  variables: { description = '', name, url, favorite = false, categories = [] },
+  variables: { categories = [], description = '', favorite = false, name, url },
 }) => {
-  if (!name || !url) return Err('invalid arguments');
-
-  const response = await repository.bookmarkRepo.create({
+  const bookmark = await repository.bookmarkRepo.create({
     name,
     url,
     description,
     favorite,
   });
 
-  console.log(response);
+  // category relationship
+  const accountId = repository.bookmarkRepo['accountId'];
+
+  const bookmarkCategories = categories.map((category) => ({
+    pk: `User:${accountId}`,
+    sk: `${category.sk}:${bookmark.sk}`,
+    bookmark: bookmark.sk,
+  }));
+
+  await model.category.batchPut(bookmarkCategories);
+
+  const response = {
+    ...bookmark,
+    categories,
+  };
 
   return Ok(response);
 };

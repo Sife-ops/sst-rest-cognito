@@ -7,6 +7,7 @@ export const Dev: React.FC = () => {
   const [description, setDescription] = React.useState('');
   const [url, setUrl] = React.useState('');
   const [favorite, setFavorite] = React.useState(false);
+  const [categories, setCategories] = React.useState<any[]>([]);
 
   React.useEffect(() => {
     Auth.currentAuthenticatedUser().then((e) => {
@@ -16,6 +17,77 @@ export const Dev: React.FC = () => {
 
   return (
     <div className="App">
+      <h1>bookmark create</h1>
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          const res = await API.post('temp', '/private', {
+            body: {
+              operation: 'bookmarkCreate',
+              variables: {
+                name,
+                description,
+                url,
+                favorite,
+                categories: categories.filter((category) => category.selected),
+              },
+            },
+          });
+          console.log(res);
+        }}
+      >
+        <input
+          placeholder="name"
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+        />
+        <br />
+        <input
+          placeholder="description"
+          onChange={(e) => setDescription(e.target.value)}
+          value={description}
+        />
+        <br />
+        <input
+          placeholder="url"
+          onChange={(e) => setUrl(e.target.value)}
+          value={url}
+        />
+        <br />
+        <label>favorite</label>
+        <input
+          type="checkbox"
+          onChange={() => setFavorite((s) => !s)}
+          checked={favorite}
+        />
+        <br />
+        <br />
+        {categories.map((category) => (
+          <div key={category.sk}>
+            <label>{category.name}</label>
+            <input
+              type="checkbox"
+              onChange={() => {
+                setCategories((s) =>
+                  s.map((c) => {
+                    if (c.sk === category.sk) {
+                      return {
+                        ...c,
+                        selected: !c.selected,
+                      };
+                    } else {
+                      return c;
+                    }
+                  })
+                );
+              }}
+              checked={category.selected}
+            />
+          </div>
+        ))}
+        <button type="submit">submit</button>
+      </form>
+
       <h1>category delete</h1>
       <form
         onSubmit={async (e) => {
@@ -91,12 +163,23 @@ export const Dev: React.FC = () => {
       <h1>category list</h1>
       <button
         onClick={async () => {
-          const res = await API.post('temp', '/private', {
+          const res = (await API.post('temp', '/private', {
             body: {
               operation: 'categoryList',
             },
-          });
+          })) as {
+            success: string;
+            data: any[];
+          };
           console.log(res);
+          if (res.success) {
+            setCategories(
+              res.data.map((category) => ({
+                ...category,
+                selected: false,
+              }))
+            );
+          }
         }}
       >
         submit
@@ -128,53 +211,6 @@ export const Dev: React.FC = () => {
           placeholder="description"
           onChange={(e) => setDescription(e.target.value)}
           value={description}
-        />
-        <br />
-        <button type="submit">submit</button>
-      </form>
-
-      <h1>bookmark create</h1>
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          const res = await API.post('temp', '/private', {
-            body: {
-              operation: 'bookmarkCreate',
-              variables: {
-                name,
-                description,
-                url,
-                favorite,
-              },
-            },
-          });
-          console.log(res);
-        }}
-      >
-        <input
-          placeholder="name"
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-        />
-        <br />
-        <input
-          placeholder="description"
-          onChange={(e) => setDescription(e.target.value)}
-          value={description}
-        />
-        <br />
-        <input
-          placeholder="url"
-          onChange={(e) => setUrl(e.target.value)}
-          value={url}
-        />
-        <br />
-        <label>favorite</label>
-        <input
-          type="checkbox"
-          placeholder="favorite"
-          onChange={(e) => setFavorite((s) => !s)}
-          checked={favorite}
         />
         <br />
         <button type="submit">submit</button>
