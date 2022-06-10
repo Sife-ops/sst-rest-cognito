@@ -1,9 +1,13 @@
-import * as t from './type';
 import crypto from 'crypto';
 import { EntityClass } from '../model/lib/entity';
 import { ModelType } from 'dynamoose/dist/General';
 
-export class Repo<T extends EntityClass, K extends keyof T> {
+type CreateUpdateFn<T> = (entity: Partial<T>) => Promise<T>;
+type GetFn<T> = (sk: string) => Promise<T>;
+type ListFn<T> = () => Promise<Array<T>>;
+type DeleteFn = (sk: string) => Promise<void>;
+
+export class Repo<T extends EntityClass> {
   private modelName: string;
   private accountId: string;
   private model: ModelType<T>;
@@ -14,7 +18,7 @@ export class Repo<T extends EntityClass, K extends keyof T> {
     this.model = model;
   }
 
-  create: t.CreateUpdateFn<T, K> = async (entity) => {
+  create: CreateUpdateFn<T> = async (entity) => {
     return await this.model.create({
       ...entity,
       pk: `User:${this.accountId}`,
@@ -22,14 +26,14 @@ export class Repo<T extends EntityClass, K extends keyof T> {
     });
   };
 
-  get: t.GetFn<T> = async (sk) => {
+  get: GetFn<T> = async (sk) => {
     return await this.model.get({
       pk: `User:${this.accountId}`,
       sk,
     });
   };
 
-  list: t.ListFn<T> = async () => {
+  list: ListFn<T> = async () => {
     return await this.model
       .query('pk')
       .eq(`User:${this.accountId}`)
@@ -38,11 +42,11 @@ export class Repo<T extends EntityClass, K extends keyof T> {
       .exec();
   };
 
-  update: t.CreateUpdateFn<T, 'pk' | 'sk'> = async (category) => {
-    return await this.model.update(category);
+  update: CreateUpdateFn<T> = async (entity) => {
+    return await this.model.update(entity);
   };
 
-  delete: t.DeleteFn = async (sk) => {
+  delete: DeleteFn = async (sk) => {
     return await this.model.delete({
       pk: `User:${this.accountId}`,
       sk,

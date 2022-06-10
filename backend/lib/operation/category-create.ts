@@ -1,13 +1,10 @@
-import { Ok, Err } from 'ts-results';
+import { Ok } from 'ts-results';
 import { OperationFn } from './lib/operation';
-import { CategoryIface } from '../model/category';
 
-const bookmarkCreate: OperationFn<CategoryIface> = async ({
-  repository,
-  variables: { description = '', name },
-}) => {
-  if (!name) return Err('invalid arguments');
-
+const bookmarkCreate: OperationFn<{
+  description?: string;
+  name: string;
+}> = async ({ repository, variables: { description = '', name } }) => {
   const response = await repository.categoryRepo.create({
     name,
     description,

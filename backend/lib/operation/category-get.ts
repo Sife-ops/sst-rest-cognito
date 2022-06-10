@@ -5,8 +5,6 @@ const categoryGet: OperationFn<{ sk: string }> = async ({
   repository,
   variables: { sk },
 }) => {
-  if (!sk) return Err('invalid arguments');
-
   const response = await repository.categoryRepo.get(sk);
 
   console.log(response);

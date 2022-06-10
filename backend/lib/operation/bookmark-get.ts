@@ -6,9 +6,6 @@ const bookmarkCreate: OperationFn<{ sk: string }> = async ({
   repository,
   variables: { sk },
 }) => {
-  if (!sk) return Err('invalid arguments');
-
-  // todo: add 'bookmark' property to bookmark entity
   const bookmark = await repository.bookmarkRepo.get(sk);
   const categories = await repository.categoryRepo.list();
 
