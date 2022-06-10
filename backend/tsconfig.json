@@ -1,13 +1,12 @@
 {
   "extends": "../tsconfig.json",
-  "include": ["functions", "lib/api-gateway.ts"],
+  "include": ["functions", "lib"],
   "compilerOptions": {
     "module": "esnext",
     "target": "es2017",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
-    "strictPropertyInitialization": false /* Check for class properties that are declared but not set in the constructor. */,
-
+    "strictPropertyInitialization": false /* Check for class properties that are declared but not set in the constructor. */
   }
 }

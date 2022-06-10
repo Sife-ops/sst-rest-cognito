@@ -1,5 +1,6 @@
 import React from 'react';
 import { API, Auth } from 'aws-amplify';
+// import { test } from '../../../query/test';
 
 export const Dev: React.FC = () => {
   const [categories, setCategories] = React.useState<any[]>([]);

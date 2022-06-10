@@ -1,10 +1,12 @@
 import { Ok } from 'ts-results';
 import { OperationFn } from './lib/operation';
+import { CategoryCreateInput } from '../../../query/test';
+import { CategoryClass } from '../model/category';
 
-const bookmarkCreate: OperationFn<{
-  description?: string;
-  name: string;
-}> = async ({ repository, variables: { description = '', name } }) => {
+const categoryCreate: OperationFn<CategoryCreateInput, CategoryClass> = async ({
+  repository,
+  variables: { description = '', name },
+}) => {
   const response = await repository.categoryRepo.create({
     name,
     description,
@@ -15,4 +17,4 @@ const bookmarkCreate: OperationFn<{
   return Ok(response);
 };
 
-export default bookmarkCreate;
+export default categoryCreate;
