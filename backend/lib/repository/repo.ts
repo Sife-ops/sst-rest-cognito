@@ -43,7 +43,10 @@ export class Repo<T extends EntityClass> {
   };
 
   update: CreateUpdateFn<T> = async (entity) => {
-    return await this.model.update(entity);
+    return await this.model.update({
+      ...entity,
+      pk: `User:${this.accountId}`,
+    });
   };
 
   delete: DeleteFn = async (sk) => {

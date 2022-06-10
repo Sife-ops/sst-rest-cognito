@@ -7,6 +7,7 @@ import categoryCreate from './category-create';
 import categoryDelete from './category-delete';
 import categoryGet from './category-get';
 import categoryList from './category-list';
+import categoryUpdate from './category-update';
 import itemList from './item-list';
 
 export default {
@@ -19,6 +20,7 @@ export default {
   categoryDelete,
   categoryGet,
   categoryList,
+  categoryUpdate,
   itemList,
 };
 
@@ -31,4 +33,5 @@ export type OperationName =
   | 'categoryCreate'
   | 'categoryGet'
   | 'categoryList'
+  | 'categoryUpdate'
   | 'itemList';

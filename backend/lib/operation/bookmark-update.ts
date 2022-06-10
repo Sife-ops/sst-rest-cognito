@@ -9,28 +9,18 @@ const bookmarkUpdate: OperationFn<{
   description?: string;
   favorite?: boolean;
   name?: string;
-  pk: string;
   sk: string;
   url?: string;
 }> = async ({
   repository,
-  variables: {
-    categories,
-    description = '',
-    favorite = false,
-    name,
-    pk,
-    sk,
-    url,
-  },
+  variables: { categories, description, favorite, name, sk, url },
 }) => {
   const bookmark = await repository.bookmarkRepo.update({
-    pk,
-    sk,
-    name,
-    url,
     description,
     favorite,
+    name,
+    sk,
+    url,
   });
 
   const bookmarkCategories: CategoryClass[] = await model.category
