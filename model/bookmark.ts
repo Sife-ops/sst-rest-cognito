@@ -1,5 +1,5 @@
 import dynamoose from 'dynamoose';
-import { EntityClass, entity } from './lib/entity';
+import { EntityClass, entity } from './entity';
 
 export class BookmarkClass extends EntityClass {
   name: string;
