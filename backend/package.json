@@ -8,7 +8,6 @@
     "@middy/http-json-body-parser": "^3.0.3",
     "@middy/validator": "^3.0.3",
     "aws-sdk": "^2.1145.0",
-    "dynamoose": "^2.8.5",
     "ts-results": "^3.3.0"
   },
   "devDependencies": {
