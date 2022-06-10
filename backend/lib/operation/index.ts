@@ -2,6 +2,7 @@ import bookmarkCreate from './bookmark-create';
 import bookmarkDelete from './bookmark-delete';
 import bookmarkGet from './bookmark-get';
 import bookmarkList from './bookmark-list';
+import bookmarkUpdate from './bookmark-update';
 import categoryCreate from './category-create';
 import categoryDelete from './category-delete';
 import categoryGet from './category-get';
@@ -13,6 +14,7 @@ export default {
   bookmarkDelete,
   bookmarkGet,
   bookmarkList,
+  bookmarkUpdate,
   categoryCreate,
   categoryDelete,
   categoryGet,
@@ -25,6 +27,7 @@ export type OperationName =
   | 'bookmarkDelete'
   | 'bookmarkGet'
   | 'bookmarkList'
+  | 'bookmarkUpdate'
   | 'categoryCreate'
   | 'categoryGet'
   | 'categoryList'

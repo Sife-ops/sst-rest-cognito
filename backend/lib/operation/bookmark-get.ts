@@ -7,6 +7,7 @@ const bookmarkCreate: OperationFn<{ sk: string }> = async ({
   variables: { sk },
 }) => {
   const bookmark = await repository.bookmarkRepo.get(sk);
+  // todo: use secondary index
   const categories = await repository.categoryRepo.list();
 
   return Ok({

@@ -2,12 +2,13 @@ import React from 'react';
 import { API, Auth } from 'aws-amplify';
 
 export const Dev: React.FC = () => {
-  const [name, setName] = React.useState('');
-  const [sk, setSk] = React.useState('');
-  const [description, setDescription] = React.useState('');
-  const [url, setUrl] = React.useState('');
-  const [favorite, setFavorite] = React.useState(false);
   const [categories, setCategories] = React.useState<any[]>([]);
+  const [description, setDescription] = React.useState('');
+  const [favorite, setFavorite] = React.useState(false);
+  const [name, setName] = React.useState('');
+  const [pk, setPk] = React.useState('');
+  const [sk, setSk] = React.useState('');
+  const [url, setUrl] = React.useState('');
 
   React.useEffect(() => {
     Auth.currentAuthenticatedUser().then((e) => {
@@ -17,6 +18,91 @@ export const Dev: React.FC = () => {
 
   return (
     <div className="App">
+      <h1>bookmark update</h1>
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          const res = await API.post('temp', '/private', {
+            body: {
+              operation: 'bookmarkUpdate',
+              variables: {
+                pk,
+                sk,
+                name,
+                description,
+                url,
+                favorite,
+                categories: categories.filter((category) => category.selected),
+              },
+            },
+          });
+          console.log(res);
+        }}
+      >
+        <input
+          placeholder="pk"
+          onChange={(e) => setPk(e.target.value)}
+          value={pk}
+        />
+        <br />
+        <input
+          placeholder="sk"
+          onChange={(e) => setSk(e.target.value)}
+          value={sk}
+        />
+        <br />
+        <input
+          placeholder="name"
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+        />
+        <br />
+        <input
+          placeholder="description"
+          onChange={(e) => setDescription(e.target.value)}
+          value={description}
+        />
+        <br />
+        <input
+          placeholder="url"
+          onChange={(e) => setUrl(e.target.value)}
+          value={url}
+        />
+        <br />
+        <label>favorite</label>
+        <input
+          type="checkbox"
+          onChange={() => setFavorite((s) => !s)}
+          checked={favorite}
+        />
+        <br />
+        <br />
+        {categories.map((category) => (
+          <div key={category.sk}>
+            <label>{category.name}</label>
+            <input
+              type="checkbox"
+              onChange={() => {
+                setCategories((s) =>
+                  s.map((c) => {
+                    if (c.sk === category.sk) {
+                      return {
+                        ...c,
+                        selected: !c.selected,
+                      };
+                    } else {
+                      return c;
+                    }
+                  })
+                );
+              }}
+              checked={category.selected}
+            />
+          </div>
+        ))}
+        <button type="submit">submit</button>
+      </form>
+
       <h1>bookmark create</h1>
       <form
         onSubmit={async (e) => {

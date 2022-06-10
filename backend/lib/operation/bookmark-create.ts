@@ -5,7 +5,7 @@ import model from '../model';
 import { CategoryClass } from '../model/category';
 
 const bookmarkCreate: OperationFn<{
-  categories: CategoryClass[];
+  categories?: CategoryClass[];
   description?: string;
   favorite?: boolean;
   name: string;
@@ -22,15 +22,17 @@ const bookmarkCreate: OperationFn<{
   });
 
   // category relationship
-  const accountId = repository.bookmarkRepo['accountId'];
 
-  const bookmarkCategories = categories.map((category) => ({
-    pk: `User:${accountId}`,
-    sk: `${category.sk}:${bookmark.sk}`,
-    bookmark: bookmark.sk,
-  }));
-
-  await model.category.batchPut(bookmarkCategories);
+  if (categories.length > 0) {
+    const accountId = repository.bookmarkRepo['accountId'];
+    await model.category.batchPut(
+      categories.map((category) => ({
+        pk: `User:${accountId}`,
+        sk: `${category.sk}#${bookmark.sk}`,
+        bookmark: bookmark.sk,
+      }))
+    );
+  }
 
   const response = {
     ...bookmark,
