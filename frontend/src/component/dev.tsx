@@ -1,45 +1,13 @@
 import React from 'react';
-import { API, Auth } from 'aws-amplify';
-import { CategoryClass, CategoryIface } from '../../../model/category';
+import { API } from 'aws-amplify';
 
-type ApiResponse<D> = {
-  success: boolean;
-  data?: D;
-  error?: unknown;
-};
-
-const requestFactory = function <V, D>(operation: string) {
-  return (variables: V | undefined = undefined): Promise<ApiResponse<D>> => {
-    return API.post('temp', '/private', {
-      body: {
-        operation,
-        variables,
-      },
-    });
-  };
-};
-
-// todo: types should match operations
-const categoryCreateRequest = requestFactory<CategoryIface, CategoryClass>(
-  'categoryCreate'
-);
-
-const categoryGetRequest = requestFactory<{ sk: string }, CategoryClass>(
-  'categoryGet'
-);
-
-const categoryListRequest = requestFactory<undefined, CategoryClass[]>(
-  'categoryList'
-);
-
-const categoryUpdateRequest = requestFactory<
-  Partial<CategoryClass> & Pick<CategoryClass, 'sk'>,
-  CategoryClass
->('categoryUpdate');
-
-const categoryDeleteRequest = requestFactory<{ sk: string }, unknown>(
-  'categoryDelete'
-);
+import {
+  categoryCreateRequest,
+  categoryDeleteRequest,
+  categoryGetRequest,
+  categoryListRequest,
+  categoryUpdateRequest,
+} from '../query';
 
 export const Dev: React.FC = () => {
   const [categories, setCategories] = React.useState<any[]>([]);
