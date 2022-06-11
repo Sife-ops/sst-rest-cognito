@@ -2,13 +2,14 @@ import React from 'react';
 import { API, Auth } from 'aws-amplify';
 import { CategoryClass, CategoryIface } from '../../../model/category';
 
-const queryFactory = function <V, D>(operation: string) {
-  return (
-    variables: V
-  ): Promise<{
-    success: boolean;
-    data: D;
-  }> => {
+type ApiResponse<D> = {
+  success: boolean;
+  data?: D;
+  error?: unknown;
+};
+
+const requestFactory = function <V, D>(operation: string) {
+  return (variables: V | undefined = undefined): Promise<ApiResponse<D>> => {
     return API.post('temp', '/private', {
       body: {
         operation,
@@ -18,8 +19,26 @@ const queryFactory = function <V, D>(operation: string) {
   };
 };
 
-const categoryCreateQuery = queryFactory<CategoryIface, CategoryClass>(
+// todo: types should match operations
+const categoryCreateRequest = requestFactory<CategoryIface, CategoryClass>(
   'categoryCreate'
+);
+
+const categoryGetRequest = requestFactory<{ sk: string }, CategoryClass>(
+  'categoryGet'
+);
+
+const categoryListRequest = requestFactory<undefined, CategoryClass[]>(
+  'categoryList'
+);
+
+const categoryUpdateRequest = requestFactory<
+  Partial<CategoryClass> & Pick<CategoryClass, 'sk'>,
+  CategoryClass
+>('categoryUpdate');
+
+const categoryDeleteRequest = requestFactory<{ sk: string }, unknown>(
+  'categoryDelete'
 );
 
 export const Dev: React.FC = () => {
@@ -31,24 +50,72 @@ export const Dev: React.FC = () => {
   const [url, setUrl] = React.useState('');
 
   React.useEffect(() => {
-    Auth.currentAuthenticatedUser().then((e) => {
-      console.log(e);
+    // Auth.currentAuthenticatedUser().then((e) => {
+    //   console.log(e);
+    // });
+
+    categoryListRequest().then((e) => {
+      if (e.success && e.data) {
+        console.log(e.data);
+        setCategories(e.data);
+      }
     });
   }, []);
 
   return (
     <div className="App">
-      <h1>category create</h1>
+      <h1>category delete</h1>
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          const res = await categoryCreateQuery({
-            name,
+          const res = await categoryDeleteRequest({ sk });
+          console.log(res);
+        }}
+      >
+        <input
+          placeholder="sk"
+          onChange={(e) => setSk(e.target.value)}
+          value={sk}
+        />
+        <br />
+        <button type="submit">submit</button>
+      </form>
+
+      <h1>category get</h1>
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          const res = await categoryGetRequest({ sk });
+          console.log(res);
+        }}
+      >
+        <input
+          placeholder="sk"
+          onChange={(e) => setSk(e.target.value)}
+          value={sk}
+        />
+        <br />
+        <button type="submit">submit</button>
+      </form>
+
+      <h1>category update</h1>
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          const res = await categoryUpdateRequest({
+            sk,
             description,
+            name,
           });
           console.log(res);
         }}
       >
+        <input
+          placeholder="sk"
+          onChange={(e) => setSk(e.target.value)}
+          value={sk}
+        />
+        <br />
         <input
           placeholder="name"
           onChange={(e) => setName(e.target.value)}
@@ -64,29 +131,30 @@ export const Dev: React.FC = () => {
         <button type="submit">submit</button>
       </form>
 
-      <h1>category update</h1>
+      <h1>category list</h1>
+      <button
+        onClick={async () => {
+          const { success, data } = await categoryListRequest();
+          if (success && data) {
+            console.log(data);
+            setCategories(data);
+          }
+        }}
+      >
+        submit
+      </button>
+
+      <h1>category create</h1>
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          const res = await API.post('temp', '/private', {
-            body: {
-              operation: 'categoryUpdate',
-              variables: {
-                sk,
-                name,
-                description,
-              },
-            },
+          const res = await categoryCreateRequest({
+            name,
+            description,
           });
           console.log(res);
         }}
       >
-        <input
-          placeholder="sk"
-          onChange={(e) => setSk(e.target.value)}
-          value={sk}
-        />
-        <br />
         <input
           placeholder="name"
           onChange={(e) => setName(e.target.value)}
@@ -251,30 +319,6 @@ export const Dev: React.FC = () => {
         <button type="submit">submit</button>
       </form>
 
-      <h1>category delete</h1>
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          const res = await API.post('temp', '/private', {
-            body: {
-              operation: 'categoryDelete',
-              variables: {
-                sk,
-              },
-            },
-          });
-          console.log(res);
-        }}
-      >
-        <input
-          placeholder="sk"
-          onChange={(e) => setSk(e.target.value)}
-          value={sk}
-        />
-        <br />
-        <button type="submit">submit</button>
-      </form>
-
       <h1>bookmark delete</h1>
       <form
         onSubmit={async (e) => {
@@ -298,55 +342,6 @@ export const Dev: React.FC = () => {
         <br />
         <button type="submit">submit</button>
       </form>
-
-      <h1>category get</h1>
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          const res = await API.post('temp', '/private', {
-            body: {
-              operation: 'categoryGet',
-              variables: {
-                sk,
-              },
-            },
-          });
-          console.log(res);
-        }}
-      >
-        <input
-          placeholder="sk"
-          onChange={(e) => setSk(e.target.value)}
-          value={sk}
-        />
-        <br />
-        <button type="submit">submit</button>
-      </form>
-
-      <h1>category list</h1>
-      <button
-        onClick={async () => {
-          const res = (await API.post('temp', '/private', {
-            body: {
-              operation: 'categoryList',
-            },
-          })) as {
-            success: string;
-            data: any[];
-          };
-          console.log(res);
-          if (res.success) {
-            setCategories(
-              res.data.map((category) => ({
-                ...category,
-                selected: false,
-              }))
-            );
-          }
-        }}
-      >
-        submit
-      </button>
 
       <h1>bookmark get</h1>
       <form

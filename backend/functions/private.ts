@@ -29,7 +29,7 @@ const lambdaHandler: Handler<
     } else {
       return formatResponse(400, {
         success: false,
-        message: result.val,
+        error: result.val,
       });
     }
   } catch (error) {
