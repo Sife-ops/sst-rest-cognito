@@ -32,13 +32,12 @@ const lambdaHandler: Handler<
         error: result.val,
       });
     }
-  } catch (error) {
-    const e = error as { message: string };
-    console.log(e.message);
+  } catch (error: any) {
+    console.log(error.message);
     return formatResponse(500, {
       success: false,
-      message: e.message,
-      error: e,
+      message: error.message,
+      error: error,
     });
   }
 };

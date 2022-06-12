@@ -1,6 +1,7 @@
 import {
   Api,
   Auth,
+  Bucket,
   ReactStaticSite,
   StackContext,
   Table,
@@ -9,6 +10,16 @@ import {
 const { DOMAIN, SUBDOMAIN } = process.env;
 
 export function MyStack({ stack }: StackContext) {
+  const importBucket = new Bucket(
+    stack,
+    'import-bucket'
+    // {
+    //   notifications: {
+    //     myNotification: 'src/notification.main',
+    //   },
+    // }
+  );
+
   const table = new Table(stack, 'table', {
     fields: {
       pk: 'string',
@@ -66,6 +77,7 @@ export function MyStack({ stack }: StackContext) {
 
   stack.addOutputs({
     Region: stack.region,
+    ImportBucket: importBucket.bucketName,
     Table: table.tableName,
     ApiEndpoint: api.url,
     UserPoolId: auth.userPoolId,
